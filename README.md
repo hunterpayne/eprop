@@ -1,0 +1,2 @@
+# Extensible Properties for Scala
+
