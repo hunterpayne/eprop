@@ -15,9 +15,7 @@ Months, and Years.
 import org.eprop.EKey._
 
 object ColorPType extends EKeyType[String]('color)
-
 object LengthPType extends EKeyType[Double]('length)
-
 object WidthPType extends EKeyType[Double]('width)
 
 // declare your extensible model type
@@ -26,15 +24,9 @@ class Container(/* static properties go here */props: EProperty[_]*) extends Ext
   merge(Seq("blue" as ColorPType)) // a default
   merge(props)
 
-  def color: String = 
-    properties.get(ColorPType.id).getOrElse(
-      throw new Exception("no required property named color"))
-  def length: Double = 
-    properties.get(LengthPType.id).getOrElse(
-      throw new Exception("no required property named length"))
-  def width: Double = 
-    properties.get(WidthPType.id).getOrElse(
-      throw new Exception("no required property named width"))
+  def color: Option[String] = get[String](ColorPType)
+  def length: Option[Double] = get[Double](LengthPType)
+  def width: Option[Double] = get[Double](WidthPType)
 
   // other methods here      
 }

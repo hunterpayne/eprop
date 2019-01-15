@@ -27,39 +27,18 @@ class JodaTest extends FlatSpec {
     class Container(props: EProperty[_]*) extends Extensible {
       merge(props)
 
-      def id: String = 
-        properties.get(IdPType.id).getOrElse(
-          throw new Exception("no required property named id"))
-      def eventTime: DateTime = 
-        properties.get(EventTimePType.id).getOrElse(
-          throw new Exception("no required property named eventTime"))
-      def eventTime2: Instant = 
-        properties.get(InstantPType.id).getOrElse(
-          throw new Exception("no required property named eventTime2"))
-      def eventTime3: MutableDateTime = 
-        properties.get(MutableTimePType.id).getOrElse(
-          throw new Exception("no required property named eventTime3"))
-      def halfLife: Seconds = 
-        properties.get(HalfLifePType.id).getOrElse(
-          throw new Exception("no required property named halfLife"))
-      def buildTime: Minutes = 
-        properties.get(BuildTimePType.id).getOrElse(
-          throw new Exception("no required property named buildTime"))
-      def workHours: Hours = 
-        properties.get(WorkHoursPType.id).getOrElse(
-          throw new Exception("no required property named workHours"))
-      def workDays: Days = 
-        properties.get(WorkDaysPType.id).getOrElse(
-          throw new Exception("no required property named workDays"))
-      def weeks: Weeks = 
-        properties.get(WeeksPType.id).getOrElse(
-          throw new Exception("no required property named weeks"))
-      def months: Months = 
-        properties.get(MonthsPType.id).getOrElse(
-          throw new Exception("no required property named months"))
-      def age: Years = 
-        properties.get(AgePType.id).getOrElse(
-          throw new Exception("no required property named age"))
+      def id: Option[String] = get[String](IdPType)
+      def eventTime: Option[DateTime] = get[DateTime](EventTimePType)
+      def eventTime2: Option[Instant] = get[Instant](InstantPType)
+      def eventTime3: Option[MutableDateTime] = 
+        get[MutableDateTime](MutableTimePType)
+      def halfLife: Option[Seconds] = get[Seconds](HalfLifePType)
+      def buildTime: Option[Minutes] = get[Minutes](BuildTimePType)
+      def workHours: Option[Hours] = get[Hours](WorkHoursPType)
+      def workDays: Option[Days] = get[Days](WorkDaysPType)
+      def weeks: Option[Weeks] = get[Weeks](WeeksPType)
+      def months: Option[Months] = get[Months](MonthsPType)
+      def age: Option[Years] = get[Years](AgePType)
     }
 
     // now make an instant of your container with some values
@@ -72,16 +51,16 @@ class JodaTest extends FlatSpec {
       Hours.hours(13) as WorkHoursPType, Days.days(9) as WorkDaysPType,
       Weeks.weeks(8) as WeeksPType, Months.months(7) as MonthsPType,
       Years.years(29) as AgePType)
-    assert(container.id == "0")
-    assert(container.eventTime == new DateTime(10000))
-    assert(container.eventTime2 == new Instant(1234567))
-    assert(container.eventTime3 == new DateTime(2345678))
-    assert(container.halfLife == Seconds.seconds(11))
-    assert(container.buildTime == Minutes.minutes(12))
-    assert(container.workHours == Hours.hours(13))
-    assert(container.workDays == Days.days(9))
-    assert(container.weeks == Weeks.weeks(8))
-    assert(container.months == Months.months(7))
-    assert(container.age == Years.years(29))
+    assert(container.id == Some("0"))
+    assert(container.eventTime == Some(new DateTime(10000)))
+    assert(container.eventTime2 == Some(new Instant(1234567)))
+    assert(container.eventTime3 == Some(new DateTime(2345678)))
+    assert(container.halfLife == Some(Seconds.seconds(11)))
+    assert(container.buildTime == Some(Minutes.minutes(12)))
+    assert(container.workHours == Some(Hours.hours(13)))
+    assert(container.workDays == Some(Days.days(9)))
+    assert(container.weeks == Some(Weeks.weeks(8)))
+    assert(container.months == Some(Months.months(7)))
+    assert(container.age == Some(Years.years(29)))
   }
 }

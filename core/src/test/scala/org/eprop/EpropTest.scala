@@ -32,47 +32,33 @@ class EpropTest extends FlatSpec {
       merge(Seq("blue" as ColorPType)) // a default
       merge(props)
 
-      def color: String = 
-        properties.get(ColorPType.id).getOrElse(
-          throw new Exception("no required property named color"))
-      def length: Float = 
-        properties.get(LengthPType.id).getOrElse(
-          throw new Exception("no required property named length"))
-      def width: Double = 
-        properties.get(WidthPType.id).getOrElse(
-          throw new Exception("no required property named width"))
-      def valid: Boolean = 
-        properties.get(ValidPType.id).getOrElse(
-          throw new Exception("no required property named valid"))
-      def getInt: Int = 
-        properties.get(IntPType.id).getOrElse(
-          throw new Exception("no required property named int"))
-      def getLong: Long = 
-        properties.get(LongPType.id).getOrElse(
-          throw new Exception("no required property named long"))
-      def time: Date =
-        properties.get(TimePType.id).getOrElse(
-          throw new Exception("no required property named time"))
+      def color: Option[String] = get[String](ColorPType)
+      def length: Option[Float] = get[Float](LengthPType)
+      def width: Option[Double] = get[Double](WidthPType)
+      def valid: Option[Boolean] = get[Boolean](ValidPType)
+      def getInt: Option[Int] = get[Int](IntPType)
+      def getLong: Option[Long] = get[Long](LongPType)
+      def time: Option[Date] = get[Date](TimePType)
       //def startDate: Enumeration =
         //properties.get(StartDatePType.id).getOrElse(
           //throw new Exception("no required property named startDate"))
     }
 
-    // now make an instance of your container with some values
     val container = new Container(
       "red" as ColorPType, 20.0f as LengthPType, 23.3 as WidthPType)
-    assert(container.color == "red")
-    assert(container.length == 20.0)
-    assert(container.width == 23.3)
+    assert(container.color == Some("red"))
+    assert(container.length == Some(20.0))
+    assert(container.width == Some(23.3))
+    assert(container.getInt == None)
 
     val container2 = new Container(
       true as ValidPType, 15 as IntPType, 100l as LongPType, 
       new Date(10) as TimePType) //, Mon as StartDatePType)
-    assert(container2.color == "blue") // check that defaults work
-    assert(container2.valid == true)
-    assert(container2.getInt == 15)
-    assert(container2.getLong == 100)
-    assert(container2.time == new Date(10))
-    //assert(container2.startDate == Mon)
+    assert(container2.color == Some("blue")) // check that defaults work
+    assert(container2.valid == Some(true))
+    assert(container2.getInt == Some(15))
+    assert(container2.getLong == Some(100))
+    assert(container2.time == Some(new Date(10)))
+    //assert(container2.startDate == Some(Mon))
   }
 }

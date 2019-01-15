@@ -22,23 +22,17 @@ class SquantsTest extends FlatSpec {
       merge(Seq(Kilograms(10) as MassPType)) // a default
       merge(props)
 
-      def mass: Mass = 
-        properties.get(MassPType.id).getOrElse(
-          throw new Exception("no required property named mass"))
-      def length: Length = 
-        properties.get(LengthPType.id).getOrElse(
-          throw new Exception("no required property named length"))
-      def area: Area = 
-        properties.get(AreaPType.id).getOrElse(
-          throw new Exception("no required property named area"))
+      def mass: Option[Mass] = get[Mass](MassPType)
+      def length: Option[Length] = get[Length](LengthPType)
+      def area: Option[Area] = get[Area](AreaPType)
     }
 
     // now make an instance of your container with some values
     val container = new Container(
       Grams(10) as MassPType, Meters(10.0) as LengthPType, 
       SquareMeters(15.2) as AreaPType)
-    assert(container.mass == Kilograms(0.01))
-    assert(container.length == Meters(10.0))
-    assert(container.area == SquareMeters(15.2))
+    assert(container.mass == Some(Kilograms(0.01)))
+    assert(container.length == Some(Meters(10.0)))
+    assert(container.area == Some(SquareMeters(15.2)))
   }
 }
