@@ -24,15 +24,6 @@ trait EKey[T] {
   */
 object EKey {
 
-  import scala.reflect._
-  implicit val ct = classTag[Option[String]]
-  implicit val ct2 = classTag[Option[Boolean]]
-  implicit val ct3 = classTag[Option[Int]]
-  implicit val ct4 = classTag[Option[Long]]
-  implicit val ct5 = classTag[Option[Float]]
-  implicit val ct6 = classTag[Option[Double]]
-  implicit val ct7 = classTag[Option[Date]]
-
   def apply[A](implicit sh: EKey[A]): EKey[A] = sh
 
   def as[A: EKey](symbol: Symbol, a: A) = EKey[A].as(symbol, a)
@@ -72,12 +63,15 @@ object EKey {
   // declarations and type conversions necessary to store the EKeys into
   // a shapeless.HMap
   class PropMap[K, V]
-  implicit val strElemKeyToValue = new PropMap[EKeyType[String], String]
   implicit val booleanElemKeyToValue = new PropMap[EKeyType[Boolean], Boolean]
+  implicit val byteElemKeyToValue = new PropMap[EKeyType[Byte], Byte]
+  implicit val charElemKeyToValue = new PropMap[EKeyType[Char], Char]
+  implicit val shortElemKeyToValue = new PropMap[EKeyType[Short], Short]
   implicit val intElemKeyToValue = new PropMap[EKeyType[Int], Int]
   implicit val longElemKeyToValue = new PropMap[EKeyType[Long], Long]
   implicit val floatElemKeyToValue = new PropMap[EKeyType[Float], Float]
   implicit val doubleElemKeyToValue = new PropMap[EKeyType[Double], Double]
+  implicit val strElemKeyToValue = new PropMap[EKeyType[String], String]
   //implicit val enumElemKeyToValue = 
     //new PropMap[EKeyType[Enumeration], Enumeration]
 
@@ -103,6 +97,33 @@ object EKey {
         EProperty[Boolean](symbol, value)
       def as(symbol: EKeyType[Boolean], value: Boolean): EProperty[Boolean] = 
         EProperty[Boolean](symbol.sym, value)
+    }
+
+  implicit val byteConv: EKey[Byte] =
+    new EKey[Byte] {
+      def as(symbol: Symbol, value: Byte): EProperty[Byte] = 
+        EProperty[Byte](symbol, value)
+      def as(symbol: EKeyType[Byte], value: Byte): 
+          EProperty[Byte] =
+        EProperty[Byte](symbol.sym, value)
+    }
+
+  implicit val shortConv: EKey[Short] =
+    new EKey[Short] {
+      def as(symbol: Symbol, value: Short): EProperty[Short] = 
+        EProperty[Short](symbol, value)
+      def as(symbol: EKeyType[Short], value: Short): 
+          EProperty[Short] =
+        EProperty[Short](symbol.sym, value)
+    }
+
+  implicit val charConv: EKey[Char] =
+    new EKey[Char] {
+      def as(symbol: Symbol, value: Char): EProperty[Char] = 
+        EProperty[Char](symbol, value)
+      def as(symbol: EKeyType[Char], value: Char): 
+          EProperty[Char] =
+        EProperty[Char](symbol.sym, value)
     }
 
   implicit val intConv: EKey[Int] =
@@ -185,13 +206,21 @@ object EKey {
     protected def conv(builder: HMapBuilder, t: Any): Boolean =
       t match {
         case EProperty(k, v) => v match {
-          case s: String =>
-            builder.add[String](
-              new EKeyType[String](k), t.asInstanceOf[EProperty[String]])
-            true
           case b: Boolean =>
             builder.add[Boolean](
               new EKeyType[Boolean](k), t.asInstanceOf[EProperty[Boolean]])
+            true
+          case b: Byte =>
+            builder.add[Byte](
+              new EKeyType[Byte](k), t.asInstanceOf[EProperty[Byte]])
+            true
+          case c: Char =>
+            builder.add[Char](
+              new EKeyType[Char](k), t.asInstanceOf[EProperty[Char]])
+            true
+          case s: Short =>
+            builder.add[Short](
+              new EKeyType[Short](k), t.asInstanceOf[EProperty[Short]])
             true
           case i: Int =>
             builder.add[Int](
@@ -216,6 +245,10 @@ object EKey {
               t.asInstanceOf[EProperty[Enumeration]])
             true
              */
+          case s: String =>
+            builder.add[String](
+              new EKeyType[String](k), t.asInstanceOf[EProperty[String]])
+            true
           case d: Date =>
             builder.add[Date](
               new EKeyType[Date](k), t.asInstanceOf[EProperty[Date]])

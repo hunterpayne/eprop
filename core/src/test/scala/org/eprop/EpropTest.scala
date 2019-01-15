@@ -15,12 +15,15 @@ class EpropTest extends FlatSpec {
   import WeekDay._
    */
 
-  object ColorPType extends EKeyType[String]('color)
-  object LengthPType extends EKeyType[Float]('length)
-  object WidthPType extends EKeyType[Double]('width)
   object ValidPType extends EKeyType[Boolean]('valid)
+  object BytePType extends EKeyType[Byte]('byte)
+  object CharPType extends EKeyType[Char]('char)
+  object ShortPType extends EKeyType[Short]('short)
   object IntPType extends EKeyType[Int]('int)
   object LongPType extends EKeyType[Long]('long)
+  object LengthPType extends EKeyType[Float]('length)
+  object WidthPType extends EKeyType[Double]('width)
+  object ColorPType extends EKeyType[String]('color)
   object TimePType extends EKeyType[Date]('time)
   //object StartDatePType extends EKeyType[Enumeration]('startDate)
 
@@ -32,12 +35,15 @@ class EpropTest extends FlatSpec {
       merge(Seq("blue" as ColorPType)) // a default
       merge(props)
 
-      def color: Option[String] = get[String](ColorPType)
-      def length: Option[Float] = get[Float](LengthPType)
-      def width: Option[Double] = get[Double](WidthPType)
       def valid: Option[Boolean] = get[Boolean](ValidPType)
+      def getByte: Option[Byte] = get[Byte](BytePType)
+      def getChar: Option[Char] = get[Char](CharPType)
+      def getShort: Option[Short] = get[Short](ShortPType)
       def getInt: Option[Int] = get[Int](IntPType)
       def getLong: Option[Long] = get[Long](LongPType)
+      def length: Option[Float] = get[Float](LengthPType)
+      def width: Option[Double] = get[Double](WidthPType)
+      def color: Option[String] = get[String](ColorPType)
       def time: Option[Date] = get[Date](TimePType)
       //def startDate: Enumeration =
         //properties.get(StartDatePType.id).getOrElse(
@@ -52,10 +58,14 @@ class EpropTest extends FlatSpec {
     assert(container.getInt == None)
 
     val container2 = new Container(
-      true as ValidPType, 15 as IntPType, 100l as LongPType, 
+      true as ValidPType, 0x88 as 'byte, 'c' as CharPType, 
+      16323 as 'short, 15 as IntPType, 100l as LongPType,
       new Date(10) as TimePType) //, Mon as StartDatePType)
     assert(container2.color == Some("blue")) // check that defaults work
     assert(container2.valid == Some(true))
+    assert(container2.getByte == Some(0x88))
+    assert(container2.getChar == Some('c'))
+    assert(container2.getShort == Some(16323))
     assert(container2.getInt == Some(15))
     assert(container2.getLong == Some(100))
     assert(container2.time == Some(new Date(10)))
