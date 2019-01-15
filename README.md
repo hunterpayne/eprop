@@ -41,4 +41,3 @@ class Container(/* static properties go here */props: EProperty[_]*) extends Ext
 new Container("read" as ColorPType, 20.0 as LengthPType, 23.3 as WidthPType)
 
 ```
-

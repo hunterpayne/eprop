@@ -10,7 +10,7 @@ class EpropTest extends FlatSpec {
   object LengthPType extends EKeyType[Double]('length)
   object WidthPType extends EKeyType[Double]('width)
 
-  "The isotope config" should "load from the classpath" in {
+  "The extensible config" should "be configurable" in {
 
     // declare your extensible model type
     class Container(props: EProperty[_]*) extends Extensible {
