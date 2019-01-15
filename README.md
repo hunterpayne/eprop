@@ -5,7 +5,7 @@ Encourages strong typing and provides jars providing support for various
 valid types of properties.  
 
 Currently, a default set of types: Int, Long, Float, Double, String, Boolean, 
-Date, and Enumeration are supported by the core jar.  The eprop-squants jar 
+and Date are supported by the core jar.  The eprop-squants jar 
 adds additional type support for the squants types: Mass, Energy, Density, etc.
 The eprop-joda jar adds additional type support for the joda types:
 DateTime, Instant, MutableDateTime, Seconds, Minutes, Hours, Days, Weeks, 

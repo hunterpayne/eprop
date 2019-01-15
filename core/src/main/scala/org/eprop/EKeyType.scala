@@ -81,10 +81,10 @@ object EKey {
   implicit val doubleElemKeyToValue = new PropMap[EKeyType[Double], Double]
   implicit val opDoubleElemKeyToValue =
     new PropMap[EKeyType[Option[Double]], Option[Double]]
-  implicit val enumElemKeyToValue = 
-    new PropMap[EKeyType[Enumeration], Enumeration]
-  implicit val opEnumElemKeyToValue =
-    new PropMap[EKeyType[Option[Enumeration]], Option[Enumeration]]
+  //implicit val enumElemKeyToValue = 
+    //new PropMap[EKeyType[Enumeration], Enumeration]
+  //implicit val opEnumElemKeyToValue =
+    //new PropMap[EKeyType[Option[Enumeration]], Option[Enumeration]]
 
   implicit val dateElemKeyToValue = 
     new PropMap[EKeyType[Date], Date]
@@ -92,6 +92,7 @@ object EKey {
     new PropMap[EKeyType[Option[Date]], Option[Date]]
 
   // implicit type conversions
+  /*
   implicit val enumConv: EKey[Enumeration] =
     new EKey[Enumeration] {
       def as(symbol: Symbol, value: Enumeration) : 
@@ -111,6 +112,7 @@ object EKey {
           EProperty[Option[Enumeration]] =
         EProperty[Option[Enumeration]](symbol.sym, value)
     }
+   */
 
   implicit val booleanConv: EKey[Boolean] =
     new EKey[Boolean] {
@@ -323,6 +325,7 @@ object EKey {
               new EKeyType[Option[Double]](k),
               t.asInstanceOf[EProperty[Option[Double]]])
             true
+            /*
           case e: Enumeration =>
             builder.add[Enumeration](
               new EKeyType[Enumeration](k), 
@@ -333,6 +336,7 @@ object EKey {
               new EKeyType[Option[Enumeration]](k), 
               t.asInstanceOf[EProperty[Option[Enumeration]]])
             true
+             */
           case d: Date =>
             builder.add[Date](
               new EKeyType[Date](k), t.asInstanceOf[EProperty[Date]])
