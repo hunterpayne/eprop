@@ -65,6 +65,9 @@ object EKey {
   implicit val strElemKeyToValue = new PropMap[EKeyType[String], String]
   implicit val opStrElemKeyToValue = 
     new PropMap[EKeyType[Option[String]], Option[String]]
+  implicit val booleanElemKeyToValue = new PropMap[EKeyType[Boolean], Boolean]
+  implicit val opBooleanElemKeyToValue =
+    new PropMap[EKeyType[Option[Boolean]], Option[Boolean]]
   implicit val intElemKeyToValue = new PropMap[EKeyType[Int], Int]
   implicit val opIntElemKeyToValue =
     new PropMap[EKeyType[Option[Int]], Option[Int]]
@@ -91,6 +94,24 @@ object EKey {
       def as(symbol: EKeyType[Enumeration], value: Enumeration) :
           EProperty[Enumeration] =
         EProperty[Enumeration](symbol.sym, value)
+    }
+
+  implicit val booleanConv: EKey[Boolean] =
+    new EKey[Boolean] {
+      def as(symbol: Symbol, value: Boolean): EProperty[Boolean] = 
+        EProperty[Boolean](symbol, value)
+      def as(symbol: EKeyType[Boolean], value: Boolean): EProperty[Boolean] = 
+        EProperty[Boolean](symbol.sym, value)
+    }
+
+  implicit val opBooleanConv: EKey[Option[Boolean]] =
+    new EKey[Option[Boolean]] {
+      def as(symbol: Symbol, value: Option[Boolean]): 
+          EProperty[Option[Boolean]] =
+        EProperty[Option[Boolean]](symbol, value)
+      def as(symbol: EKeyType[Option[Boolean]], value: Option[Boolean]): 
+          EProperty[Option[Boolean]] =
+        EProperty[Option[Boolean]](symbol.sym, value)
     }
 
   implicit val intConv: EKey[Int] =
@@ -221,6 +242,15 @@ object EKey {
             builder.add[Option[String]](
               new EKeyType[Option[String]](k), 
               t.asInstanceOf[EProperty[Option[String]]])
+            true
+          case b: Boolean =>
+            builder.add[Boolean](
+              new EKeyType[Boolean](k), t.asInstanceOf[EProperty[Boolean]])
+            true
+          case Some(b: Boolean) =>
+            builder.add[Option[Boolean]](
+              new EKeyType[Option[Boolean]](k), 
+              t.asInstanceOf[EProperty[Option[Boolean]]])
             true
           case i: Int =>
             builder.add[Int](
