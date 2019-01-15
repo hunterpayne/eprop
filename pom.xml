@@ -14,18 +14,18 @@
     <module>eprop-squants</module>
   </modules>
 
-<!--
-  <issueManagement>
-    <url></url>
-    <system>EProp Issues</system>
-  </issueManagement>
--->
-<!--
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <scm>
     <url>https://github.com/hunterpayne/eprop.git</url>
     <connection>scm:git:https://github.com/hunterpayne/eprop.git</connection>
   </scm>
--->
 
   <developers>
     <developer>
@@ -36,19 +36,21 @@
     </developer>
   </developers>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
   </properties>
-
-  <distributionManagement>
-    <!-- We must specify this minimal site distribution to enable site deployment to a staging location. Staging 
-      the site enables us to test the links between maven modules. This configuration below will deploy the site to ./target/staging -->
-    <site>
-      <id>site</id>
-      <url />
-    </site>
-  </distributionManagement>
 
   <reporting>
     <plugins>

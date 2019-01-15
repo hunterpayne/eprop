@@ -4,13 +4,12 @@ This library provides typesafe and extensible properties for Scala projects.
 Encourages strong typing and provides jars providing support for various
 valid types of properties.  
 
-Currently, a default set of types: Int, Long, Double, String, and Enumeration
-are supported by the core jar.  The eprop-squants jar adds additional type
-support for the squants types: Mass, Energy, Density, etc.
+Currently, a default set of types: Int, Long, Float, Double, String, and 
+Enumeration are supported by the core jar.  The eprop-squants jar adds 
+additional type support for the squants types: Mass, Energy, Density, etc.
 
 
 ```scala
-
 import org.eprop.EKey._
 
 object ColorPType extends EKeyType[String]('color)

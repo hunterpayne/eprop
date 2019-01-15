@@ -71,6 +71,9 @@ object EKey {
   implicit val longElemKeyToValue = new PropMap[EKeyType[Long], Long]
   implicit val opLongElemKeyToValue =
     new PropMap[EKeyType[Option[Long]], Option[Long]]
+  implicit val floatElemKeyToValue = new PropMap[EKeyType[Float], Float]
+  implicit val opFloatElemKeyToValue =
+    new PropMap[EKeyType[Option[Float]], Option[Float]]
   implicit val doubleElemKeyToValue = new PropMap[EKeyType[Double], Double]
   implicit val opDoubleElemKeyToValue =
     new PropMap[EKeyType[Option[Double]], Option[Double]]
@@ -123,6 +126,25 @@ object EKey {
       def as(symbol: EKeyType[Option[Long]], value: Option[Long]): 
           EProperty[Option[Long]] =
         EProperty[Option[Long]](symbol.sym, value)
+    }
+
+  implicit val floatConv: EKey[Float] =
+    new EKey[Float] {
+      def as(symbol: Symbol, value: Float): EProperty[Float] = 
+        EProperty[Float](symbol, value)
+      def as(symbol: EKeyType[Float], value: Float): 
+          EProperty[Float] = 
+        EProperty[Float](symbol.sym, value)
+    }
+
+  implicit val opFloatConv: EKey[Option[Float]] =
+    new EKey[Option[Float]] {
+      def as(symbol: Symbol, value: Option[Float]): 
+          EProperty[Option[Float]] =
+        EProperty[Option[Float]](symbol, value)
+      def as(symbol: EKeyType[Option[Float]], value: Option[Float]): 
+          EProperty[Option[Float]] = 
+        EProperty[Option[Float]](symbol.sym, value)
     }
 
   implicit val doubleConv: EKey[Double] =
@@ -217,6 +239,15 @@ object EKey {
             builder.add[Option[Long]](
               new EKeyType[Option[Long]](k), 
               t.asInstanceOf[EProperty[Option[Long]]])
+            true
+          case d: Float =>
+            builder.add[Float](
+              new EKeyType[Float](k), t.asInstanceOf[EProperty[Float]])
+            true
+          case Some(d: Float) =>
+            builder.add[Option[Float]](
+              new EKeyType[Option[Float]](k),
+              t.asInstanceOf[EProperty[Option[Float]]])
             true
           case d: Double =>
             builder.add[Double](
