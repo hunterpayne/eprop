@@ -12,11 +12,11 @@ import squants.energy.{
   Energy, PowerDensity, EnergyDensity, Power, PowerRamp, SpecificEnergy }
 import squants.market.Money
 import squants.mass.{ AreaDensity, Density, Mass, ChemicalAmount }
-import squants.motion.{ 
-  Acceleration, AngularVelocity, Force, Jerk, MassFlow, Momentum, Pressure, 
-  PressureChange, Velocity, VolumeFlow, Yank }
+import squants.motion.{
+  Acceleration, AngularAcceleration, AngularVelocity, Force, Jerk, MassFlow, 
+  Momentum, Pressure, PressureChange, Velocity, VolumeFlow, Yank }
 import squants.photo.{ 
-  Illuminance, Luminance, LuminousEnergy, LuminousExposure, LuminousFlux, 
+  Illuminance, Luminance, LuminousEnergy, LuminousExposure, LuminousFlux,
   LuminousIntensity }
 import squants.radio.{ 
   Irradiance, Radiance, SpectralIntensity, SpectralIrradiance, SpectralPower }
@@ -84,6 +84,8 @@ object EKeySquants {
 
   implicit val accelerationElemKeyToValue = 
     new PropMap[EKeyType[Acceleration], Acceleration]
+  implicit val angularAccelerationElemKeyToValue = 
+    new PropMap[EKeyType[AngularAcceleration], AngularAcceleration]
   implicit val angularVelocityElemKeyToValue = 
     new PropMap[EKeyType[AngularVelocity], AngularVelocity]
   implicit val forceElemKeyToValue = new PropMap[EKeyType[Force], Force]
@@ -372,6 +374,16 @@ object EKeySquants {
       def as(symbol: EKeyType[Acceleration], value: Acceleration): 
           EProperty[Acceleration] = 
         EProperty[Acceleration](symbol.sym, value)
+    }
+
+  implicit val angularAccelerationConv: EKey[AngularAcceleration] =
+    new EKey[AngularAcceleration] {
+      def as(symbol: Symbol, value: AngularAcceleration): 
+          EProperty[AngularAcceleration] =
+        EProperty[AngularAcceleration](symbol, value)
+      def as(symbol: EKeyType[AngularAcceleration], value: AngularAcceleration):
+          EProperty[AngularAcceleration] = 
+        EProperty[AngularAcceleration](symbol.sym, value)
     }
 
   implicit val angularVelocityConv: EKey[AngularVelocity] =
@@ -791,6 +803,11 @@ object EKeySquants {
             builder.add[Acceleration](
               new EKeyType[Acceleration](k), 
               t.asInstanceOf[EProperty[Acceleration]])
+            true
+          case m: AngularAcceleration =>
+            builder.add[AngularAcceleration](
+              new EKeyType[AngularAcceleration](k), 
+              t.asInstanceOf[EProperty[AngularAcceleration]])
             true
           case m: AngularVelocity =>
             builder.add[AngularVelocity](
