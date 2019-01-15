@@ -1,8 +1,8 @@
 # Extensible Properties for Scala
 
 This library provides typesafe and extensible properties for Scala projects.
-Encourages strong typing and provides jars providing support for various
-valid types of properties.  
+It encourages strong typing and provides jars providing support for various
+types of properties.
 
 Currently, a default set of types: Boolean, Byte, Char, Short, Int, Long, 
 Float, Double, String and Date are supported by the core jar.  The 

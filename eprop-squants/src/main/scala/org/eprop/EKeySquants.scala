@@ -10,6 +10,7 @@ import squants.electro.{
   MagneticFlux, MagneticFluxDensity, Resistivity }
 import squants.energy.{ 
   Energy, PowerDensity, EnergyDensity, Power, PowerRamp, SpecificEnergy }
+import squants.information.{ DataRate, Information }
 import squants.market.Money
 import squants.mass.{ AreaDensity, Density, Mass, ChemicalAmount }
 import squants.motion.{
@@ -71,6 +72,11 @@ object EKeySquants {
     new PropMap[EKeyType[PowerRamp], PowerRamp]
   implicit val specificEnergyElemKeyToValue = 
     new PropMap[EKeyType[SpecificEnergy], SpecificEnergy]
+
+  implicit val dataRateElemKeyToValue = 
+    new PropMap[EKeyType[DataRate], DataRate]
+  implicit val informationElemKeyToValue = 
+    new PropMap[EKeyType[Information], Information]
 
   implicit val moneyElemKeyToValue = new PropMap[EKeyType[Money], Money]
 
@@ -317,6 +323,25 @@ object EKeySquants {
       def as(symbol: EKeyType[SpecificEnergy], value: SpecificEnergy): 
           EProperty[SpecificEnergy] = 
         EProperty[SpecificEnergy](symbol.sym, value)
+    }
+
+
+  implicit val dataRateConv: EKey[DataRate] =
+    new EKey[DataRate] {
+      def as(symbol: Symbol, value: DataRate): EProperty[DataRate] = 
+        EProperty[DataRate](symbol, value)
+      def as(symbol: EKeyType[DataRate], value: DataRate): 
+          EProperty[DataRate] = 
+        EProperty[DataRate](symbol.sym, value)
+    }
+
+  implicit val informationConv: EKey[Information] =
+    new EKey[Information] {
+      def as(symbol: Symbol, value: Information): EProperty[Information] = 
+        EProperty[Information](symbol, value)
+      def as(symbol: EKeyType[Information], value: Information): 
+          EProperty[Information] = 
+        EProperty[Information](symbol.sym, value)
     }
 
 
@@ -773,6 +798,16 @@ object EKeySquants {
             builder.add[SpecificEnergy](
               new EKeyType[SpecificEnergy](k), 
               t.asInstanceOf[EProperty[SpecificEnergy]])
+            true
+
+          case m: DataRate =>
+            builder.add[DataRate](
+              new EKeyType[DataRate](k), t.asInstanceOf[EProperty[DataRate]])
+            true
+          case m: Information =>
+            builder.add[Information](
+              new EKeyType[Information](k), 
+              t.asInstanceOf[EProperty[Information]])
             true
 
           case m: Money =>

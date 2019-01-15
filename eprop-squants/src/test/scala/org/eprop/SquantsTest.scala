@@ -8,6 +8,7 @@ import org.eprop.EKeySquants._
 import squants.{ Dimensionless, Percent }
 import squants.electro._
 import squants.energy.{ WattsPerCubicMeter => EWattsPerCubicMeter, _ }
+import squants.information._
 import squants.market._
 import squants.mass._
 import squants.motion._
@@ -44,6 +45,9 @@ class SquantsTest extends FlatSpec {
   object PowerPType extends EKeyType[Power]('power)
   object PowerRampPType extends EKeyType[PowerRamp]('powerRamp)
   object SpecificEnergyPType extends EKeyType[SpecificEnergy]('specificEnergy)
+
+  object DataRatePType extends EKeyType[DataRate]('dataRate)
+  object InformationPType extends EKeyType[Information]('information)
 
   object MoneyPType extends EKeyType[Money]('money)
 
@@ -139,6 +143,9 @@ class SquantsTest extends FlatSpec {
       def specificEnergy: Option[SpecificEnergy] = 
         get[SpecificEnergy](SpecificEnergyPType)
 
+      def dataRate: Option[DataRate] = get[DataRate](DataRatePType)
+      def information: Option[Information] = get[Information](InformationPType)
+
       def money: Option[Money] = get[Money](MoneyPType)
 
       def areaDensity: Option[AreaDensity] = get[AreaDensity](AreaDensityPType)
@@ -229,6 +236,9 @@ class SquantsTest extends FlatSpec {
       WattsPerHour(7) as PowerRampPType,
       Grays(6) as SpecificEnergyPType,
 
+      BytesPerSecond(7000000) as DataRatePType,
+      Bytes(100000) as InformationPType,
+
       USD(1000000) as MoneyPType,
 
       GramsPerSquareCentimeter(5) as AreaDensityPType,
@@ -268,7 +278,7 @@ class SquantsTest extends FlatSpec {
       CubicMeters(11) as VolumePType,
       SquaredRadians(10) as SolidAnglePType,
 
-      Kelvin(273) as TemperaturePType,
+      Kelvin(273.15) as TemperaturePType,
       JoulesPerKelvin(8) as ThermalCapacityPType,
 
       Seconds(7) as TimePType,
@@ -299,6 +309,9 @@ class SquantsTest extends FlatSpec {
     assert(container2.power.get == Watts(8))
     assert(container2.powerRamp.get == WattsPerHour(7))
     assert(container2.specificEnergy.get == Grays(6))
+
+    assert(container2.dataRate.get == BytesPerSecond(7000000))
+    assert(container2.information.get == Bytes(100000))
 
     assert(container2.money.get == USD(1000000))
 
@@ -341,7 +354,7 @@ class SquantsTest extends FlatSpec {
     assert(container2.volume.get == CubicMeters(11))
     assert(container2.solidAngle.get == SquaredRadians(10))
 
-    assert(container2.temperature.get == Celsius(-0.15))
+    assert(container2.temperature.get == Celsius(0.0))
     assert(container2.thermalCapacity.get == JoulesPerKelvin(8))
 
     assert(container2.time.get == Seconds(7))
