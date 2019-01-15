@@ -10,7 +10,7 @@ class EpropTest extends FlatSpec {
   object LengthPType extends EKeyType[Double]('length)
   object WidthPType extends EKeyType[Double]('width)
 
-  "The extensible config" should "be configurable" in {
+  "The extensible config" should "read standard data types" in {
 
     // declare your extensible model type
     class Container(props: EProperty[_]*) extends Extensible {

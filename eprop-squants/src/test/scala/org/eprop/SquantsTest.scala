@@ -14,7 +14,7 @@ class SquantsTest extends FlatSpec {
   object LengthPType extends EKeyType[Length]('length)
   object AreaPType extends EKeyType[Area]('area)
 
-  "The properties" should "read data correctly" in {
+  "The properties" should "read squants types correctly" in {
 
     // declare your extensible model type
     class Container(props: EProperty[_]*) extends Extensible {
