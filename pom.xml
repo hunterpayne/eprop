@@ -1,0 +1,201 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eprop</groupId>
+  <artifactId>eprop</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Extensible properties for Scala</name>
+  <url></url>
+
+  <modules>
+    <module>parent</module>
+    <module>core</module>
+    <module>eprop-squants</module>
+  </modules>
+
+<!--
+  <issueManagement>
+    <url></url>
+    <system>EProp Issues</system>
+  </issueManagement>
+-->
+<!--
+  <scm>
+    <url>https://github.com/hunterpayne/eprop.git</url>
+    <connection>scm:git:https://github.com/hunterpayne/eprop.git</connection>
+  </scm>
+-->
+
+  <developers>
+    <developer>
+      <email>hunterpayne2001@yahoo.com</email>
+      <name>Hunter Payne</name>
+      <url>https://github.com/hunterpayne</url>
+      <id>hunter</id>
+    </developer>
+  </developers>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
+  </properties>
+
+  <distributionManagement>
+    <!-- We must specify this minimal site distribution to enable site deployment to a staging location. Staging 
+      the site enables us to test the links between maven modules. This configuration below will deploy the site to ./target/staging -->
+    <site>
+      <id>site</id>
+      <url />
+    </site>
+  </distributionManagement>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependencies</report>
+              <report>project-team</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+ 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <skip>${javadocs.skip}</skip>
+          <failOnError>false</failOnError>
+        </configuration>
+        <reportSets>
+          <reportSet><!-- by default, id = "default" -->
+            <reports><!-- select non-aggregate reports -->
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+          <reportSet><!-- aggregate reportSet, for poms having modules -->
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+ 
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.11</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.0.1</version>
+        <reportSets>
+          <reportSet>
+            <!-- defines pmd reports in the modules -->
+            <id>pmd-report</id>
+            <reports>
+              <report>pmd</report>
+            </reports>
+          </reportSet>
+ 
+          <reportSet>
+            <!-- defines pmd aggregate report -->
+            <id>pmd-aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>pmd</report>
+            </reports>
+            <configuration>
+              <aggregate>true</aggregate>
+            </configuration>
+          </reportSet>
+ 
+          <reportSet>
+            <!-- defines cpd reports in the modules -->
+            <id>cpd-report</id>
+            <reports>
+              <report>cpd</report>
+            </reports>
+          </reportSet>
+ 
+          <reportSet>
+            <!-- defines cpd aggregate report -->
+            <id>cpd-aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>cpd</report>
+            </reports>
+            <configuration>
+              <aggregate>true</aggregate>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.16</version>
+        <reportSets>
+          <reportSet>
+            <!-- defines unit test reports in the modules -->
+            <id>unit-tests</id>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+ 
+          <reportSet>
+            <!-- defines aggregate unit test report -->
+            <id>unit-tests-aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>report</report>
+            </reports>
+            <configuration>
+              <aggregate>true</aggregate>
+            </configuration>
+          </reportSet>
+ 
+          <reportSet>
+            <!-- defines integration test reports in the modules -->
+            <id>integration-tests</id>
+            <reports>
+              <report>failsafe-report-only</report>
+            </reports>
+          </reportSet>
+ 
+          <reportSet>
+            <!-- defines aggregate integration test report -->
+            <id>integration-tests-aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>failsafe-report-only</report>
+            </reports>
+            <configuration>
+              <aggregate>true</aggregate>
+            </configuration>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>
