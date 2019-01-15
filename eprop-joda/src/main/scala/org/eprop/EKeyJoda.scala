@@ -5,9 +5,6 @@ import shapeless.HMap
 
 import org.joda.time._
 
-// TODO add
-// 
-
 /**
   * a scope containing all the implicit type conversions necessary to
   * make the as method of the property object which generates the EProperty
