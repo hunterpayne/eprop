@@ -1,7 +1,8 @@
 
 package org.eprop
 
-import collection.mutable.Buffer
+import java.util.Date
+import scala.collection.mutable.Buffer
 
 import shapeless.HMap
 
@@ -85,6 +86,11 @@ object EKey {
   implicit val opEnumElemKeyToValue =
     new PropMap[EKeyType[Option[Enumeration]], Option[Enumeration]]
 
+  implicit val dateElemKeyToValue = 
+    new PropMap[EKeyType[Date], Date]
+  implicit val opDateElemKeyToValue =
+    new PropMap[EKeyType[Option[Date]], Option[Date]]
+
   // implicit type conversions
   implicit val enumConv: EKey[Enumeration] =
     new EKey[Enumeration] {
@@ -94,6 +100,16 @@ object EKey {
       def as(symbol: EKeyType[Enumeration], value: Enumeration) :
           EProperty[Enumeration] =
         EProperty[Enumeration](symbol.sym, value)
+    }
+
+  implicit val opEnumConv: EKey[Option[Enumeration]] =
+    new EKey[Option[Enumeration]] {
+      def as(symbol: Symbol, value: Option[Enumeration]) : 
+          EProperty[Option[Enumeration]] =
+        EProperty[Option[Enumeration]](symbol, value)
+      def as(symbol: EKeyType[Option[Enumeration]], value: Option[Enumeration]):
+          EProperty[Option[Enumeration]] =
+        EProperty[Option[Enumeration]](symbol.sym, value)
     }
 
   implicit val booleanConv: EKey[Boolean] =
@@ -206,6 +222,25 @@ object EKey {
         EProperty[Option[String]](symbol.sym, value)
     }
 
+  implicit val dateConv: EKey[Date] =
+    new EKey[Date] {
+      def as(symbol: Symbol, value: Date): EProperty[Date] = 
+        EProperty[Date](symbol, value)
+      def as(symbol: EKeyType[Date], value: Date): 
+          EProperty[Date] =
+        EProperty[Date](symbol.sym, value)
+    }
+
+  implicit val opDateConv: EKey[Option[Date]] =
+    new EKey[Option[Date]] {
+      def as(symbol: Symbol, value: Option[Date]): 
+          EProperty[Option[Date]] =
+        EProperty[Option[Date]](symbol, value)
+      def as(symbol: EKeyType[Option[Date]], value: Option[Date]): 
+          EProperty[Option[Date]] = 
+        EProperty[Option[Date]](symbol.sym, value)
+    }
+
   // case a EProperty to a tuple suitable for storing in a HMap
   implicit def toTuple[T](e: EProperty[T]): (EKeyType[T], T) =
     (new EKeyType[T](e.name), e.value)
@@ -298,7 +333,16 @@ object EKey {
               new EKeyType[Option[Enumeration]](k), 
               t.asInstanceOf[EProperty[Option[Enumeration]]])
             true
-          case None => false
+          case d: Date =>
+            builder.add[Date](
+              new EKeyType[Date](k), t.asInstanceOf[EProperty[Date]])
+            true
+          case Some(e: Date) =>
+            builder.add[Option[Date]](
+              new EKeyType[Option[Date]](k), 
+              t.asInstanceOf[EProperty[Option[Date]]])
+            true
+          case None => true // nothing to add
           case p => false
         }
         case _ => assert(false); false
@@ -315,7 +359,8 @@ object EKey {
 
       val builder = new HMapBuilder(properties, propsKeys)
       p.foreach { prop => if (!conv(builder, prop)) {
-        delegates.forall { del => !del.conv(builder, prop) }
+        if (delegates.forall { del => !del.conv(builder, prop) })
+          throw new Exception(s"unable to process property $prop")
       }}
 
       properties = builder.map
