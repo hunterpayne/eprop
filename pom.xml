@@ -12,6 +12,7 @@
     <module>parent</module>
     <module>core</module>
     <module>eprop-squants</module>
+    <module>eprop-joda</module>
   </modules>
 
   <licenses>

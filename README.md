@@ -7,6 +7,7 @@ valid types of properties.
 Currently, a default set of types: Int, Long, Float, Double, String, Boolean, 
 Date, and Enumeration are supported by the core jar.  The eprop-squants jar 
 adds additional type support for the squants types: Mass, Energy, Density, etc.
+The eprop-joda jar adds additional type support for types from the Joda library.
 
 
 ```scala
