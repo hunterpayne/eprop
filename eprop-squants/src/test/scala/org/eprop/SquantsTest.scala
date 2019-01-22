@@ -45,6 +45,7 @@ class SquantsTest extends FlatSpec {
   object PowerPType extends EKeyType[Power]('power)
   object PowerRampPType extends EKeyType[PowerRamp]('powerRamp)
   object SpecificEnergyPType extends EKeyType[SpecificEnergy]('specificEnergy)
+  object MolarEnergyPType extends EKeyType[MolarEnergy]('molarEnergy)
 
   object DataRatePType extends EKeyType[DataRate]('dataRate)
   object InformationPType extends EKeyType[Information]('information)
@@ -142,6 +143,7 @@ class SquantsTest extends FlatSpec {
       def powerRamp: Option[PowerRamp] = get[PowerRamp](PowerRampPType)
       def specificEnergy: Option[SpecificEnergy] = 
         get[SpecificEnergy](SpecificEnergyPType)
+      def molarEnergy: Option[MolarEnergy] = get[MolarEnergy](MolarEnergyPType)
 
       def dataRate: Option[DataRate] = get[DataRate](DataRatePType)
       def information: Option[Information] = get[Information](InformationPType)
@@ -235,6 +237,7 @@ class SquantsTest extends FlatSpec {
       Watts(8) as PowerPType,
       WattsPerHour(7) as PowerRampPType,
       Grays(6) as SpecificEnergyPType,
+      JoulesPerMole(5) as MolarEnergyPType,
 
       BytesPerSecond(7000000) as DataRatePType,
       Bytes(100000) as InformationPType,
@@ -309,6 +312,7 @@ class SquantsTest extends FlatSpec {
     assert(container2.power.get == Watts(8))
     assert(container2.powerRamp.get == WattsPerHour(7))
     assert(container2.specificEnergy.get == Grays(6))
+    assert(container2.molarEnergy.get == JoulesPerMole(5))
 
     assert(container2.dataRate.get == BytesPerSecond(7000000))
     assert(container2.information.get == Bytes(100000))

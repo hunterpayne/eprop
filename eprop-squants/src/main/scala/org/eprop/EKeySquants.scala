@@ -9,7 +9,8 @@ import squants.electro.{
   ElectricPotential, ElectricalConductance, ElectricalResistance, Inductance, 
   MagneticFlux, MagneticFluxDensity, Resistivity }
 import squants.energy.{ 
-  Energy, PowerDensity, EnergyDensity, Power, PowerRamp, SpecificEnergy }
+  Energy, PowerDensity, EnergyDensity, Power, PowerRamp, SpecificEnergy, 
+  MolarEnergy }
 import squants.information.{ DataRate, Information }
 import squants.market.Money
 import squants.mass.{ AreaDensity, Density, Mass, ChemicalAmount }
@@ -72,6 +73,8 @@ object EKeySquants {
     new PropMap[EKeyType[PowerRamp], PowerRamp]
   implicit val specificEnergyElemKeyToValue = 
     new PropMap[EKeyType[SpecificEnergy], SpecificEnergy]
+  implicit val molarEnergyElemKeyToValue = 
+    new PropMap[EKeyType[MolarEnergy], MolarEnergy]
 
   implicit val dataRateElemKeyToValue = 
     new PropMap[EKeyType[DataRate], DataRate]
@@ -323,6 +326,15 @@ object EKeySquants {
       def as(symbol: EKeyType[SpecificEnergy], value: SpecificEnergy): 
           EProperty[SpecificEnergy] = 
         EProperty[SpecificEnergy](symbol.sym, value)
+    }
+
+  implicit val molarEnergyConv: EKey[MolarEnergy] =
+    new EKey[MolarEnergy] {
+      def as(symbol: Symbol, value: MolarEnergy): EProperty[MolarEnergy] = 
+        EProperty[MolarEnergy](symbol, value)
+      def as(symbol: EKeyType[MolarEnergy], value: MolarEnergy): 
+          EProperty[MolarEnergy] = 
+        EProperty[MolarEnergy](symbol.sym, value)
     }
 
 
@@ -798,6 +810,11 @@ object EKeySquants {
             builder.add[SpecificEnergy](
               new EKeyType[SpecificEnergy](k), 
               t.asInstanceOf[EProperty[SpecificEnergy]])
+            true
+          case m: MolarEnergy =>
+            builder.add[MolarEnergy](
+              new EKeyType[MolarEnergy](k), 
+              t.asInstanceOf[EProperty[MolarEnergy]])
             true
 
           case m: DataRate =>
