@@ -1,6 +1,7 @@
 
 package org.eprop
 
+import java.awt.Color
 import java.util.Date
 import org.scalatest.FlatSpec
 import org.eprop.EKey._
@@ -23,7 +24,8 @@ class EpropTest extends FlatSpec {
   object LongPType extends EKeyType[Long]('long)
   object LengthPType extends EKeyType[Float]('length)
   object WidthPType extends EKeyType[Double]('width)
-  object ColorPType extends EKeyType[String]('color)
+  object StringPType extends EKeyType[String]('str)
+  object ColorPType extends EKeyType[Color]('color)
   object TimePType extends EKeyType[Date]('time)
   //object StartDatePType extends EKeyType[Enumeration]('startDate)
 
@@ -32,7 +34,7 @@ class EpropTest extends FlatSpec {
     // declare your extensible model type
     class Container(props: EProperty[_]*) extends Extensible {
 
-      merge(Seq("blue" as ColorPType)) // a default
+      merge(Seq("blue" as StringPType)) // a default
       merge(props)
 
       def valid: Option[Boolean] = get[Boolean](ValidPType)
@@ -43,7 +45,8 @@ class EpropTest extends FlatSpec {
       def getLong: Option[Long] = get[Long](LongPType)
       def length: Option[Float] = get[Float](LengthPType)
       def width: Option[Double] = get[Double](WidthPType)
-      def color: Option[String] = get[String](ColorPType)
+      def str: Option[String] = get[String](StringPType)
+      def color: Option[Color] = get[Color](ColorPType)
       def time: Option[Date] = get[Date](TimePType)
       //def startDate: Enumeration =
         //properties.get(StartDatePType.id).getOrElse(
@@ -51,17 +54,18 @@ class EpropTest extends FlatSpec {
     }
 
     val container = new Container(
-      "red" as ColorPType, 20.0f as LengthPType, 23.3 as WidthPType)
-    assert(container.color == Some("red"))
+      "red" as StringPType, 20.0f as LengthPType, 23.3 as WidthPType)
+    assert(container.str == Some("red"))
     assert(container.length == Some(20.0))
     assert(container.width == Some(23.3))
     assert(container.getInt == None)
 
     val container2 = new Container(
-      true as ValidPType, 0x88 as 'byte, 'c' as CharPType, 
-      16323 as 'short, 15 as IntPType, 100l as LongPType,
+      Color.black as ColorPType, true as ValidPType, 0x88 as 'byte, 
+      'c' as CharPType, 16323 as 'short, 15 as IntPType, 100l as LongPType,
       new Date(10) as TimePType) //, Mon as StartDatePType)
-    assert(container2.color == Some("blue")) // check that defaults work
+    assert(container2.str == Some("blue")) // check that defaults work
+    assert(container2.color == Some(Color.black))
     assert(container2.valid == Some(true))
     assert(container2.getByte == Some(0x88))
     assert(container2.getChar == Some('c'))

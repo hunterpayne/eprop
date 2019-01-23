@@ -2,6 +2,7 @@
 package org.eprop
 
 import java.util.Date
+import java.awt.Color
 import scala.collection.mutable.Buffer
 
 import shapeless.HMap
@@ -72,6 +73,7 @@ object EKey {
   implicit val floatElemKeyToValue = new PropMap[EKeyType[Float], Float]
   implicit val doubleElemKeyToValue = new PropMap[EKeyType[Double], Double]
   implicit val strElemKeyToValue = new PropMap[EKeyType[String], String]
+  implicit val colorElemKeyToValue = new PropMap[EKeyType[Color], Color]
   //implicit val enumElemKeyToValue = 
     //new PropMap[EKeyType[Enumeration], Enumeration]
 
@@ -169,6 +171,15 @@ object EKey {
         EProperty[String](symbol.sym, value)
     }
 
+  implicit val colorConv: EKey[Color] =
+    new EKey[Color] {
+      def as(symbol: Symbol, value: Color): EProperty[Color] = 
+        EProperty[Color](symbol, value)
+      def as(symbol: EKeyType[Color], value: Color): 
+          EProperty[Color] =
+        EProperty[Color](symbol.sym, value)
+    }
+
   implicit val dateConv: EKey[Date] =
     new EKey[Date] {
       def as(symbol: Symbol, value: Date): EProperty[Date] = 
@@ -249,6 +260,10 @@ object EKey {
             builder.add[String](
               new EKeyType[String](k), t.asInstanceOf[EProperty[String]])
             true
+          case c: Color =>
+            builder.add[Color](
+              new EKeyType[Color](k), t.asInstanceOf[EProperty[Color]])
+            true
           case d: Date =>
             builder.add[Date](
               new EKeyType[Date](k), t.asInstanceOf[EProperty[Date]])
@@ -272,7 +287,7 @@ object EKey {
       val builder = new HMapBuilder(properties, propsKeys)
       p.foreach { prop => if (!conv(builder, prop)) {
         if (delegates.forall { del => !del.conv(builder, prop) })
-          throw new Exception(s"unable to process property $prop")
+          throw new Exception(s"unable to process property $prop of type ${prop.value.getClass.getName} and delegates $delegates")
       }}
 
       properties = builder.map
