@@ -24,7 +24,7 @@
     <dependency>
       <groupId>org.kletz</groupId>
       <artifactId>terra_${scala.version}</artifactId>
-      <version>1.0.0.20190209084300</version>
+      <version>1.0.0.20190209103352</version>
     </dependency>
   </dependencies>
 
