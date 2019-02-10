@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eprop</groupId>
   <artifactId>eprop-terra-common</artifactId>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <name>eprop-terra-common</name>
   <url></url>
   <version>1.0-SNAPSHOT</version>
@@ -15,78 +15,23 @@
     <relativePath>../parent</relativePath>
   </parent>
 
+  <modules>
+    <module>cross/2.11</module>
+    <module>cross/2.12</module>
+    <module>cross/2.13</module>
+  </modules>
+
   <dependencies>
     <dependency>
       <groupId>org.eprop</groupId>
-      <artifactId>core</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <artifactId>core_${version.scala.simple.epoch}</artifactId>
+      <version>${revision}</version>
     </dependency>
     <dependency>
-      <groupId>org.kletz</groupId>
-      <artifactId>terra_${scala.version}</artifactId>
-      <version>1.0.0.20190209103352</version>
+      <groupId>org.terra</groupId>
+      <artifactId>terra_${version.scala.simple.epoch}</artifactId>
+      <version>${version.terra}</version>
     </dependency>
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>3.3.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>testCompile</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.7</version>
-        <configuration>
-          <skipTests>true</skipTests>
-        </configuration>
-      </plugin>
-      <!-- enable scalatest -->
-      <plugin>
-        <groupId>org.scalatest</groupId>
-        <artifactId>scalatest-maven-plugin</artifactId>
-        <version>1.0</version>
-        <configuration>
-          <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-          <junitxml>.</junitxml>
-          <filereports>WDF TestSuite.txt</filereports>
-        </configuration>
-        <executions>
-          <execution>
-            <id>test</id>
-            <goals>
-              <goal>test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>3.3.1</version>
-        <configuration>
-          <jvmArgs>
-            <jvmArg>-Xms64m</jvmArg>
-            <jvmArg>-Xmx1024m</jvmArg>
-          </jvmArgs>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
 </project>

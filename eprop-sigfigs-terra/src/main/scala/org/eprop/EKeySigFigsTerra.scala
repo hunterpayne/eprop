@@ -4,28 +4,28 @@ package org.eprop
 import shapeless.HMap
 
 import org.sigfigs.terra._
-import electro.{ 
+import org.sigfigs.terra.electro.{ 
   ElectricCurrent, Capacitance, Conductivity, ElectricCharge, 
   ElectricPotential, ElectricalConductance, ElectricalResistance, Inductance, 
   MagneticFlux, MagneticFluxDensity, Resistivity }
-import energy.{ 
+import org.sigfigs.terra.energy.{ 
   Energy, PowerDensity, EnergyDensity, Power, PowerRamp, SpecificEnergy, 
   MolarEnergy }
-import information.{ DataRate, Information }
-import market.Money
-import mass.{ AreaDensity, Density, Mass, ChemicalAmount }
-import motion.{
+import org.sigfigs.terra.information.{ DataRate, Information }
+import org.sigfigs.terra.market.Money
+import org.sigfigs.terra.mass.{ AreaDensity, Density, Mass, ChemicalAmount }
+import org.sigfigs.terra.motion.{
   Acceleration, AngularAcceleration, AngularVelocity, Force, Jerk, MassFlow, 
   Momentum, Pressure, PressureChange, Velocity, VolumeFlow, Yank }
-import photo.{ 
+import org.sigfigs.terra.photo.{ 
   Illuminance, Luminance, LuminousEnergy, LuminousExposure, LuminousFlux,
   LuminousIntensity }
-import radio.{ 
+import org.sigfigs.terra.radio.{ 
   Irradiance, Radiance, SpectralIntensity, SpectralIrradiance, SpectralPower,
   Activity, ParticleFlux, Dose, AreaTime }
-import space.{ Angle, Area, Length, Volume, SolidAngle }
-import thermal.{ Temperature, ThermalCapacity } 
-import time.{ Time, Frequency, TimeSquared }
+import org.sigfigs.terra.space.{ Angle, Area, Length, Volume, SolidAngle }
+import org.sigfigs.terra.thermal.{ Temperature, ThermalCapacity } 
+import org.sigfigs.terra.time.{ Time, Frequency, TimeSquared }
 
 /**
   * a scope containing all the implicit type conversions necessary to
