@@ -15,6 +15,7 @@
     <module>eprop-joda</module>
     <module>eprop-terra-standard</module>
     <module>eprop-terra-common</module>
+    <module>eprop-terra-classic</module>
     <module>eprop-terra-double</module>
     <module>eprop-sigfigs-terra</module>
   </modules>
