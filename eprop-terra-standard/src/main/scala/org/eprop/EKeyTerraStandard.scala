@@ -13,7 +13,9 @@ import energy.{
   MolarEnergy }
 import information.{ DataRate, Information }
 import market.{ Money, Employee, Labor }
-import mass.{ AreaDensity, Density, Mass, ChemicalAmount, MolarMass }
+import mass.{ 
+  AreaDensity, Density, Mass, ChemicalAmount, MolarMass, Concentration, 
+  CatalyticActivity }
 import motion.{
   Acceleration, AngularAcceleration, AngularVelocity, Force, Jerk, MassFlow, 
   Momentum, Pressure, PressureChange, Velocity, VolumeFlow, Yank }
@@ -96,6 +98,10 @@ object EKeyTerraStandard {
     new PropMap[EKeyType[ChemicalAmount], ChemicalAmount]
   implicit val molarMassElemKeyToValue =
     new PropMap[EKeyType[MolarMass], MolarMass]
+  implicit val concentrationElemKeyToValue = 
+    new PropMap[EKeyType[Concentration], Concentration]
+  implicit val catalyticActivityElemKeyToValue = 
+    new PropMap[EKeyType[CatalyticActivity], CatalyticActivity]
 
   implicit val accelerationElemKeyToValue = 
     new PropMap[EKeyType[Acceleration], Acceleration]
@@ -441,6 +447,25 @@ object EKeyTerraStandard {
       def as(symbol: EKeyType[MolarMass], value: MolarMass): 
           EProperty[MolarMass] =
         EProperty[MolarMass](symbol.sym, value)
+    }
+
+  implicit val concentrationConv: EKey[Concentration] =
+    new EKey[Concentration] {
+      def as(symbol: Symbol, value: Concentration): EProperty[Concentration] = 
+        EProperty[Concentration](symbol, value)
+      def as(symbol: EKeyType[Concentration], value: Concentration): 
+          EProperty[Concentration] = 
+        EProperty[Concentration](symbol.sym, value)
+    }
+
+  implicit val catalyticActivityConv: EKey[CatalyticActivity] =
+    new EKey[CatalyticActivity] {
+      def as(symbol: Symbol, value: CatalyticActivity): 
+          EProperty[CatalyticActivity] =
+        EProperty[CatalyticActivity](symbol, value)
+      def as(symbol: EKeyType[CatalyticActivity], value: CatalyticActivity): 
+          EProperty[CatalyticActivity] = 
+        EProperty[CatalyticActivity](symbol.sym, value)
     }
 
 
@@ -937,6 +962,16 @@ object EKeyTerraStandard {
           case m: MolarMass =>
             builder.add[MolarMass](
               new EKeyType[MolarMass](k), t.asInstanceOf[EProperty[MolarMass]])
+            true
+          case m: Concentration =>
+            builder.add[Concentration](
+              new EKeyType[Concentration](k), 
+              t.asInstanceOf[EProperty[Concentration]])
+            true
+          case m: CatalyticActivity =>
+            builder.add[CatalyticActivity](
+              new EKeyType[CatalyticActivity](k), 
+              t.asInstanceOf[EProperty[CatalyticActivity]])
             true
 
           case m: Acceleration =>

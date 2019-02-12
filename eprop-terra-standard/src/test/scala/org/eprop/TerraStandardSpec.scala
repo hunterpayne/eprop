@@ -59,6 +59,9 @@ class TerraStandardSpec extends FlatSpec {
   object MassPType extends EKeyType[Mass]('mass)
   object ChemicalAmountPType extends EKeyType[ChemicalAmount]('chemicalAmount)
   object MolarMassPType extends EKeyType[MolarMass]('molarMass)
+  object ConcentrationPType extends EKeyType[Concentration]('concentration)
+  object CatalyticActivityPType 
+      extends EKeyType[CatalyticActivity]('catalyticActivity)
 
   object AccelerationPType extends EKeyType[Acceleration]('acceleration)
   object AngularAccelerationPType 
@@ -165,6 +168,10 @@ class TerraStandardSpec extends FlatSpec {
       def chemicalAmount: Option[ChemicalAmount] = 
         get[ChemicalAmount](ChemicalAmountPType)
       def molarMass: Option[MolarMass] = get[MolarMass](MolarMassPType)
+      def concentration: Option[Concentration] = 
+        get[Concentration](ConcentrationPType)
+      def catalyticActivity: Option[CatalyticActivity] = 
+        get[CatalyticActivity](CatalyticActivityPType)
 
       def acceleration: Option[Acceleration] = 
         get[Acceleration](AccelerationPType)
@@ -266,6 +273,8 @@ class TerraStandardSpec extends FlatSpec {
       Kilograms(3) as MassPType,
       Moles(2) as ChemicalAmountPType,
       KilogramsPerMole(71) as MolarMassPType,
+      MolesPerCubicMeter(72) as ConcentrationPType,
+      Katals(73) as CatalyticActivityPType,
 
       MetersPerSecondSquared(35) as AccelerationPType,
       DegreesPerSecondSquared(34) as AngularAccelerationPType,
@@ -347,7 +356,9 @@ class TerraStandardSpec extends FlatSpec {
     assert(container2.density.get == KilogramsPerCubicMeter(4))
     assert(container2.mass.get == Grams(3000))
     assert(container2.chemicalAmount.get == Moles(2))
-    assert(container2.molarMass.get == KilgitogramsPerMole(71))
+    assert(container2.molarMass.get == KilogramsPerMole(71))
+    assert(container2.concentration.get == MolesPerCubicMeter(72))
+    assert(container2.catalyticActivity.get == Katals(73))
 
     assert(container2.acceleration.get == MetersPerSecondSquared(35))
     assert(container2.angularAcceleration.get == DegreesPerSecondSquared(34))
