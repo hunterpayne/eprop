@@ -58,6 +58,7 @@ class TerraCommonSpec extends FlatSpec {
   object DensityPType extends EKeyType[Density]('density)
   object MassPType extends EKeyType[Mass]('mass)
   object ChemicalAmountPType extends EKeyType[ChemicalAmount]('chemicalAmount)
+  object MolarMassPType extends EKeyType[MolarMass]('molarMass)
 
   object AccelerationPType extends EKeyType[Acceleration]('acceleration)
   object AngularAccelerationPType 
@@ -163,6 +164,7 @@ class TerraCommonSpec extends FlatSpec {
       def mass: Option[Mass] = get[Mass](MassPType)
       def chemicalAmount: Option[ChemicalAmount] = 
         get[ChemicalAmount](ChemicalAmountPType)
+      def molarMass: Option[MolarMass] = get[MolarMass](MolarMassPType)
 
       def acceleration: Option[Acceleration] = 
         get[Acceleration](AccelerationPType)
@@ -263,6 +265,7 @@ class TerraCommonSpec extends FlatSpec {
       KilogramsPerCubicMeter(4) as DensityPType,
       Kilograms(3) as MassPType,
       Moles(2) as ChemicalAmountPType,
+      KilogramsPerMole(71) as MolarMassPType,
 
       MetersPerSecondSquared(35) as AccelerationPType,
       DegreesPerSecondSquared(34) as AngularAccelerationPType,
@@ -344,6 +347,7 @@ class TerraCommonSpec extends FlatSpec {
     assert(container2.density.get == KilogramsPerCubicMeter(4))
     assert(container2.mass.get == Grams(3000))
     assert(container2.chemicalAmount.get == Moles(2))
+    assert(container2.molarMass.get == KilogramsPerMole(71))
 
     assert(container2.acceleration.get == MetersPerSecondSquared(35))
     assert(container2.angularAcceleration.get == DegreesPerSecondSquared(34))

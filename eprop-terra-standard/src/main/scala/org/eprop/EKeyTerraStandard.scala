@@ -13,7 +13,7 @@ import energy.{
   MolarEnergy }
 import information.{ DataRate, Information }
 import market.{ Money, Employee, Labor }
-import mass.{ AreaDensity, Density, Mass, ChemicalAmount }
+import mass.{ AreaDensity, Density, Mass, ChemicalAmount, MolarMass }
 import motion.{
   Acceleration, AngularAcceleration, AngularVelocity, Force, Jerk, MassFlow, 
   Momentum, Pressure, PressureChange, Velocity, VolumeFlow, Yank }
@@ -94,6 +94,8 @@ object EKeyTerraStandard {
   implicit val massElemKeyToValue = new PropMap[EKeyType[Mass], Mass]
   implicit val chemicalAmountElemKeyToValue = 
     new PropMap[EKeyType[ChemicalAmount], ChemicalAmount]
+  implicit val molarMassElemKeyToValue =
+    new PropMap[EKeyType[MolarMass], MolarMass]
 
   implicit val accelerationElemKeyToValue = 
     new PropMap[EKeyType[Acceleration], Acceleration]
@@ -430,6 +432,15 @@ object EKeyTerraStandard {
       def as(symbol: EKeyType[ChemicalAmount], value: ChemicalAmount): 
           EProperty[ChemicalAmount] = 
         EProperty[ChemicalAmount](symbol.sym, value)
+    }
+
+  implicit val molarMassConv: EKey[MolarMass] =
+    new EKey[MolarMass] {
+      def as(symbol: Symbol, value: MolarMass): EProperty[MolarMass] =
+        EProperty[MolarMass](symbol, value)
+      def as(symbol: EKeyType[MolarMass], value: MolarMass): 
+          EProperty[MolarMass] =
+        EProperty[MolarMass](symbol.sym, value)
     }
 
 
@@ -922,6 +933,10 @@ object EKeyTerraStandard {
             builder.add[ChemicalAmount](
               new EKeyType[ChemicalAmount](k), 
               t.asInstanceOf[EProperty[ChemicalAmount]])
+            true
+          case m: MolarMass =>
+            builder.add[MolarMass](
+              new EKeyType[MolarMass](k), t.asInstanceOf[EProperty[MolarMass]])
             true
 
           case m: Acceleration =>

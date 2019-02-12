@@ -13,7 +13,7 @@ import org.sigfigs.terra.energy.{
   MolarEnergy }
 import org.sigfigs.terra.information.{ DataRate, Information }
 import org.sigfigs.terra.market.{ Money, Employee, Labor }
-import org.sigfigs.terra.mass.{ AreaDensity, Density, Mass, ChemicalAmount }
+import org.sigfigs.terra.mass.{ AreaDensity, Density, Mass, ChemicalAmount, MolarMass }
 import org.sigfigs.terra.motion.{
   Acceleration, AngularAcceleration, AngularVelocity, Force, Jerk, MassFlow, 
   Momentum, Pressure, PressureChange, Velocity, VolumeFlow, Yank }
@@ -94,6 +94,8 @@ object EKeySigFigsTerra {
   implicit val massElemKeyToValue = new PropMap[EKeyType[Mass], Mass]
   implicit val chemicalAmountElemKeyToValue = 
     new PropMap[EKeyType[ChemicalAmount], ChemicalAmount]
+  implicit val molarMassElemKeyToValue =
+    new PropMap[EKeyType[MolarMass], MolarMass]
 
   implicit val accelerationElemKeyToValue = 
     new PropMap[EKeyType[Acceleration], Acceleration]
@@ -430,6 +432,15 @@ object EKeySigFigsTerra {
       def as(symbol: EKeyType[ChemicalAmount], value: ChemicalAmount): 
           EProperty[ChemicalAmount] = 
         EProperty[ChemicalAmount](symbol.sym, value)
+    }
+
+  implicit val molarMassConv: EKey[MolarMass] =
+    new EKey[MolarMass] {
+      def as(symbol: Symbol, value: MolarMass): EProperty[MolarMass] =
+        EProperty[MolarMass](symbol, value)
+      def as(symbol: EKeyType[MolarMass], value: MolarMass): 
+          EProperty[MolarMass] =
+        EProperty[MolarMass](symbol.sym, value)
     }
 
 
@@ -922,6 +933,10 @@ object EKeySigFigsTerra {
             builder.add[ChemicalAmount](
               new EKeyType[ChemicalAmount](k), 
               t.asInstanceOf[EProperty[ChemicalAmount]])
+            true
+          case m: MolarMass =>
+            builder.add[MolarMass](
+              new EKeyType[MolarMass](k), t.asInstanceOf[EProperty[MolarMass]])
             true
 
           case m: Acceleration =>
