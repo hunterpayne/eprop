@@ -51,6 +51,8 @@ class TerraCommonSpec extends FlatSpec {
   object InformationPType extends EKeyType[Information]('information)
 
   object MoneyPType extends EKeyType[Money]('money)
+  object EmployeePType extends EKeyType[Employee]('employee)
+  object LaborPType extends EKeyType[Labor]('labor)
 
   object AreaDensityPType extends EKeyType[AreaDensity]('areaDensity)
   object DensityPType extends EKeyType[Density]('density)
@@ -153,6 +155,8 @@ class TerraCommonSpec extends FlatSpec {
       def information: Option[Information] = get[Information](InformationPType)
 
       def money: Option[Money] = get[Money](MoneyPType)
+      def employee: Option[Employee] = get[Employee](EmployeePType)
+      def labor: Option[Labor] = get[Labor](LaborPType)
 
       def areaDensity: Option[AreaDensity] = get[AreaDensity](AreaDensityPType)
       def density: Option[Density] = get[Density](DensityPType)
@@ -252,6 +256,8 @@ class TerraCommonSpec extends FlatSpec {
       Bytes(100000) as InformationPType,
 
       USD(1000000) as MoneyPType,
+      People(10) as EmployeePType,
+      PersonHours(200000) as LaborPType,
 
       GramsPerSquareCentimeter(5) as AreaDensityPType,
       KilogramsPerCubicMeter(4) as DensityPType,
@@ -331,6 +337,8 @@ class TerraCommonSpec extends FlatSpec {
     assert(container2.information.get == Bytes(100000))
 
     assert(container2.money.get == USD(1000000))
+    assert(container2.employee.get == People(10))
+    assert(container2.labor.get == PersonHours(200000))
 
     assert(container2.areaDensity.get == GramsPerSquareCentimeter(5))
     assert(container2.density.get == KilogramsPerCubicMeter(4))

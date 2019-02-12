@@ -12,7 +12,7 @@ import org.sigfigs.terra.energy.{
   Energy, PowerDensity, EnergyDensity, Power, PowerRamp, SpecificEnergy, 
   MolarEnergy }
 import org.sigfigs.terra.information.{ DataRate, Information }
-import org.sigfigs.terra.market.Money
+import org.sigfigs.terra.market.{ Money, Employee, Labor }
 import org.sigfigs.terra.mass.{ AreaDensity, Density, Mass, ChemicalAmount }
 import org.sigfigs.terra.motion.{
   Acceleration, AngularAcceleration, AngularVelocity, Force, Jerk, MassFlow, 
@@ -83,6 +83,9 @@ object EKeySigFigsTerra {
     new PropMap[EKeyType[Information], Information]
 
   implicit val moneyElemKeyToValue = new PropMap[EKeyType[Money], Money]
+  implicit val employeeElemKeyToValue = 
+    new PropMap[EKeyType[Employee], Employee]
+  implicit val laborElemKeyToValue = new PropMap[EKeyType[Labor], Labor]
 
   implicit val areaDensityElemKeyToValue =
     new PropMap[EKeyType[AreaDensity], AreaDensity]
@@ -373,6 +376,25 @@ object EKeySigFigsTerra {
           EProperty[Money] = 
         EProperty[Money](symbol.sym, value)
     }
+
+  implicit val employeeConv: EKey[Employee] =
+    new EKey[Employee] {
+      def as(symbol: Symbol, value: Employee): EProperty[Employee] = 
+        EProperty[Employee](symbol, value)
+      def as(symbol: EKeyType[Employee], value: Employee): 
+          EProperty[Employee] = 
+        EProperty[Employee](symbol.sym, value)
+    }
+
+  implicit val laborConv: EKey[Labor] =
+    new EKey[Labor] {
+      def as(symbol: Symbol, value: Labor): EProperty[Labor] = 
+        EProperty[Labor](symbol, value)
+      def as(symbol: EKeyType[Labor], value: Labor): 
+          EProperty[Labor] = 
+        EProperty[Labor](symbol.sym, value)
+    }
+
 
   implicit val areaDensityConv: EKey[AreaDensity] =
     new EKey[AreaDensity] {
@@ -873,6 +895,14 @@ object EKeySigFigsTerra {
           case m: Money =>
             builder.add[Money](
               new EKeyType[Money](k), t.asInstanceOf[EProperty[Money]])
+            true
+          case e: Employee =>
+            builder.add[Employee](
+              new EKeyType[Employee](k), t.asInstanceOf[EProperty[Employee]])
+            true
+          case l: Labor =>
+            builder.add[Labor](
+              new EKeyType[Labor](k), t.asInstanceOf[EProperty[Labor]])
             true
 
           case m: AreaDensity =>
