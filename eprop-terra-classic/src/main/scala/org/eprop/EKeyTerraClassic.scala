@@ -10,7 +10,7 @@ import electro.{
   MagneticFlux, MagneticFluxDensity, Resistivity }
 import energy.{ 
   Energy, PowerDensity, EnergyDensity, Power, PowerRamp, SpecificEnergy, 
-  MolarEnergy }
+  MolarEnergy, EnergyAreaDensity }
 import information.{ DataRate, Information }
 import market.{ Money, Employee, Labor }
 import mass.{ 
@@ -18,14 +18,16 @@ import mass.{
   CatalyticActivity }
 import motion.{
   Acceleration, AngularAcceleration, AngularVelocity, Force, Jerk, MassFlow, 
-  Momentum, Pressure, PressureChange, Velocity, VolumeFlow, Yank }
+  Momentum, Pressure, PressureChange, Velocity, VolumeFlow, Yank, Viscosity, 
+  SurfaceTension }
 import photo.{ 
   Illuminance, Luminance, LuminousEnergy, LuminousExposure, LuminousFlux,
   LuminousIntensity }
 import radio.{ 
   Irradiance, Radiance, SpectralIntensity, SpectralIrradiance, SpectralPower,
-  Activity, ParticleFlux, Dose, AreaTime }
-import space.{ Angle, Area, Length, Volume, SolidAngle }
+  Activity, ParticleFlux, Dose, AreaTime, AbsorbedDose }
+import space.{ 
+  Angle, Area, Length, Volume, SolidAngle, MolarVolume, SpecificVolume }
 import thermal.{ Temperature, ThermalCapacity } 
 import time.{ Time, Frequency, TimeSquared }
 
@@ -71,6 +73,8 @@ object EKeyTerraClassic {
     new PropMap[EKeyType[PowerDensity], PowerDensity]
   implicit val energyDensityElemKeyToValue = 
     new PropMap[EKeyType[EnergyDensity], EnergyDensity]
+  implicit val energyAreaDensityElemKeyToValue = 
+    new PropMap[EKeyType[EnergyAreaDensity], EnergyAreaDensity]
   implicit val powerElemKeyToValue = new PropMap[EKeyType[Power], Power]
   implicit val powerRampElemKeyToValue = 
     new PropMap[EKeyType[PowerRamp], PowerRamp]
@@ -124,6 +128,10 @@ object EKeyTerraClassic {
   implicit val volumeFlowElemKeyToValue = 
     new PropMap[EKeyType[VolumeFlow], VolumeFlow]
   implicit val yankElemKeyToValue = new PropMap[EKeyType[Yank], Yank]
+  implicit val surfaceTensionElemKeyToValue = 
+    new PropMap[EKeyType[SurfaceTension], SurfaceTension]
+  implicit val viscosityElemKeyToValue = 
+    new PropMap[EKeyType[Viscosity], Viscosity]
 
   implicit val illuminanceElemKeyToValue = 
     new PropMap[EKeyType[Illuminance], Illuminance]
@@ -155,6 +163,8 @@ object EKeyTerraClassic {
   implicit val doseElemKeyToValue = new PropMap[EKeyType[Dose], Dose]
   implicit val areaTimeElemKeyToValue = 
     new PropMap[EKeyType[AreaTime], AreaTime]
+  implicit val absorbedDoseElemKeyToValue = 
+    new PropMap[EKeyType[AbsorbedDose], AbsorbedDose]
 
   implicit val angleElemKeyToValue = new PropMap[EKeyType[Angle], Angle]
   implicit val lengthElemKeyToValue = new PropMap[EKeyType[Length], Length]
@@ -162,6 +172,10 @@ object EKeyTerraClassic {
   implicit val volElemKeyToValue = new PropMap[EKeyType[Volume], Volume]
   implicit val solidAngleElemKeyToValue = 
     new PropMap[EKeyType[SolidAngle], SolidAngle]
+  implicit val specificVolumeElemKeyToValue = 
+    new PropMap[EKeyType[SpecificVolume], SpecificVolume]
+  implicit val molarVolumeElemKeyToValue = 
+    new PropMap[EKeyType[MolarVolume], MolarVolume]
 
   implicit val tempElemKeyToValue = 
     new PropMap[EKeyType[Temperature], Temperature]
@@ -318,6 +332,17 @@ object EKeyTerraClassic {
       def as(symbol: EKeyType[EnergyDensity], value: EnergyDensity): 
           EProperty[EnergyDensity] = 
         EProperty[EnergyDensity](symbol.sym, value)
+    }
+
+  implicit val energyAreaDensityConv: EKey[EnergyAreaDensity] =
+    new EKey[EnergyAreaDensity] {
+      def as(
+        symbol: Symbol, 
+        value: EnergyAreaDensity): EProperty[EnergyAreaDensity] =
+        EProperty[EnergyAreaDensity](symbol, value)
+      def as(symbol: EKeyType[EnergyAreaDensity], value: EnergyAreaDensity): 
+          EProperty[EnergyAreaDensity] = 
+        EProperty[EnergyAreaDensity](symbol.sym, value)
     }
 
   implicit val powerConv: EKey[Power] =
@@ -579,6 +604,24 @@ object EKeyTerraClassic {
         EProperty[Yank](symbol.sym, value)
     }
 
+  implicit val surfaceTensionConv: EKey[SurfaceTension] =
+    new EKey[SurfaceTension] {
+      def as(symbol: Symbol, value: SurfaceTension): EProperty[SurfaceTension] =
+        EProperty[SurfaceTension](symbol, value)
+      def as(symbol: EKeyType[SurfaceTension], value: SurfaceTension): 
+          EProperty[SurfaceTension] = 
+        EProperty[SurfaceTension](symbol.sym, value)
+    }
+
+  implicit val viscosityConv: EKey[Viscosity] =
+    new EKey[Viscosity] {
+      def as(symbol: Symbol, value: Viscosity): EProperty[Viscosity] = 
+        EProperty[Viscosity](symbol, value)
+      def as(symbol: EKeyType[Viscosity], value: Viscosity): 
+          EProperty[Viscosity] = 
+        EProperty[Viscosity](symbol.sym, value)
+    }
+
 
   implicit val illuminanceConv: EKey[Illuminance] =
     new EKey[Illuminance] {
@@ -720,6 +763,15 @@ object EKeyTerraClassic {
         EProperty[AreaTime](symbol.sym, value)
     }
 
+  implicit val absorbedDoseConv: EKey[AbsorbedDose] =
+    new EKey[AbsorbedDose] {
+      def as(symbol: Symbol, value: AbsorbedDose): EProperty[AbsorbedDose] = 
+        EProperty[AbsorbedDose](symbol, value)
+      def as(symbol: EKeyType[AbsorbedDose], value: AbsorbedDose): 
+          EProperty[AbsorbedDose] = 
+        EProperty[AbsorbedDose](symbol.sym, value)
+    }
+
 
   implicit val angleConv: EKey[Angle] =
     new EKey[Angle] {
@@ -764,6 +816,24 @@ object EKeyTerraClassic {
       def as(symbol: EKeyType[SolidAngle], value: SolidAngle): 
           EProperty[SolidAngle] = 
         EProperty[SolidAngle](symbol.sym, value)
+    }
+
+  implicit val specificVolumeConv: EKey[SpecificVolume] =
+    new EKey[SpecificVolume] {
+      def as(symbol: Symbol, value: SpecificVolume): EProperty[SpecificVolume] =
+        EProperty[SpecificVolume](symbol, value)
+      def as(symbol: EKeyType[SpecificVolume], value: SpecificVolume): 
+          EProperty[SpecificVolume] = 
+        EProperty[SpecificVolume](symbol.sym, value)
+    }
+
+  implicit val molarVolumeConv: EKey[MolarVolume] =
+    new EKey[MolarVolume] {
+      def as(symbol: Symbol, value: MolarVolume): EProperty[MolarVolume] = 
+        EProperty[MolarVolume](symbol, value)
+      def as(symbol: EKeyType[MolarVolume], value: MolarVolume): 
+          EProperty[MolarVolume] = 
+        EProperty[MolarVolume](symbol.sym, value)
     }
 
 
@@ -898,6 +968,11 @@ object EKeyTerraClassic {
               new EKeyType[EnergyDensity](k), 
               t.asInstanceOf[EProperty[EnergyDensity]])
             true
+          case m: EnergyAreaDensity =>
+            builder.add[EnergyAreaDensity](
+              new EKeyType[EnergyAreaDensity](k), 
+              t.asInstanceOf[EProperty[EnergyAreaDensity]])
+            true
           case m: Power =>
             builder.add[Power](
               new EKeyType[Power](k), t.asInstanceOf[EProperty[Power]])
@@ -1027,6 +1102,15 @@ object EKeyTerraClassic {
             builder.add[Yank](
               new EKeyType[Yank](k), t.asInstanceOf[EProperty[Yank]])
             true
+          case m: SurfaceTension =>
+            builder.add[SurfaceTension](
+              new EKeyType[SurfaceTension](k), 
+              t.asInstanceOf[EProperty[SurfaceTension]])
+            true
+          case m: Viscosity =>
+            builder.add[Viscosity](
+              new EKeyType[Viscosity](k), t.asInstanceOf[EProperty[Viscosity]])
+            true
 
           case m: Illuminance =>
             builder.add[Illuminance](
@@ -1099,6 +1183,11 @@ object EKeyTerraClassic {
             builder.add[AreaTime](
               new EKeyType[AreaTime](k), t.asInstanceOf[EProperty[AreaTime]])
             true
+          case m: AbsorbedDose =>
+            builder.add[AbsorbedDose](
+              new EKeyType[AbsorbedDose](k), 
+              t.asInstanceOf[EProperty[AbsorbedDose]])
+            true
 
           case m: Angle =>
             builder.add[Angle](
@@ -1120,6 +1209,16 @@ object EKeyTerraClassic {
             builder.add[SolidAngle](
               new EKeyType[SolidAngle](k), 
               t.asInstanceOf[EProperty[SolidAngle]])
+            true
+          case m: SpecificVolume =>
+            builder.add[SpecificVolume](
+              new EKeyType[SpecificVolume](k), 
+              t.asInstanceOf[EProperty[SpecificVolume]])
+            true
+          case m: MolarVolume =>
+            builder.add[MolarVolume](
+              new EKeyType[MolarVolume](k), 
+              t.asInstanceOf[EProperty[MolarVolume]])
             true
 
           case te: Temperature =>

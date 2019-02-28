@@ -42,6 +42,8 @@ class TerraStandardSpec extends FlatSpec {
   object EnergyPType extends EKeyType[Energy]('energy)
   object PowerDensityPType extends EKeyType[PowerDensity]('powerDensity)
   object EnergyDensityPType extends EKeyType[EnergyDensity]('energyDensity)
+  object EnergyAreaDensityPType 
+      extends EKeyType[EnergyAreaDensity]('energyAreaDensity)
   object PowerPType extends EKeyType[Power]('power)
   object PowerRampPType extends EKeyType[PowerRamp]('powerRamp)
   object SpecificEnergyPType extends EKeyType[SpecificEnergy]('specificEnergy)
@@ -77,6 +79,8 @@ class TerraStandardSpec extends FlatSpec {
   object VelocityPType extends EKeyType[Velocity]('velocity)
   object VolumeFlowPType extends EKeyType[VolumeFlow]('volumeFlow)
   object YankPType extends EKeyType[Yank]('yank)
+  object SurfaceTensionPType extends EKeyType[SurfaceTension]('surfaceTension)
+  object ViscosityPType extends EKeyType[Viscosity]('viscosity)
 
   object IlluminancePType extends EKeyType[Illuminance]('illuminance)
   object LuminancePType extends EKeyType[Luminance]('luminance)
@@ -98,12 +102,15 @@ class TerraStandardSpec extends FlatSpec {
   object ParticleFluxPType extends EKeyType[ParticleFlux]('particleFlux)
   object DosePType extends EKeyType[Dose]('dose)
   object AreaTimePType extends EKeyType[AreaTime]('areaTime)
+  object AbsorbedDosePType extends EKeyType[AbsorbedDose]('absorbedDose)
 
   object AnglePType extends EKeyType[Angle]('angle)
   object LengthPType extends EKeyType[Length]('length)
   object AreaPType extends EKeyType[Area]('area)
   object VolumePType extends EKeyType[Volume]('volume)
   object SolidAnglePType extends EKeyType[SolidAngle]('solidAngle)
+  object SpecificVolumePType extends EKeyType[SpecificVolume]('specificVolume)
+  object MolarVolumePType extends EKeyType[MolarVolume]('molarVolume)
 
   object TemperaturePType extends EKeyType[Temperature]('temperature)
   object ThermalCapacityPType 
@@ -149,6 +156,8 @@ class TerraStandardSpec extends FlatSpec {
         get[PowerDensity](PowerDensityPType)
       def energyDensity: Option[EnergyDensity] = 
         get[EnergyDensity](EnergyDensityPType)
+      def energyAreaDensity: Option[EnergyAreaDensity] = 
+        get[EnergyAreaDensity](EnergyAreaDensityPType)
       def power: Option[Power] = get[Power](PowerPType)
       def powerRamp: Option[PowerRamp] = get[PowerRamp](PowerRampPType)
       def specificEnergy: Option[SpecificEnergy] = 
@@ -189,6 +198,9 @@ class TerraStandardSpec extends FlatSpec {
       def velocity: Option[Velocity] = get[Velocity](VelocityPType)
       def volumeFlow: Option[VolumeFlow] = get[VolumeFlow](VolumeFlowPType)
       def yank: Option[Yank] = get[Yank](YankPType)
+      def surfaceTension: Option[SurfaceTension] = 
+        get[SurfaceTension](SurfaceTensionPType)
+      def viscosity: Option[Viscosity] = get[Viscosity](ViscosityPType)
 
       def illuminance: Option[Illuminance] = get[Illuminance](IlluminancePType)
       def luminance: Option[Luminance] = get[Luminance](LuminancePType)
@@ -214,12 +226,17 @@ class TerraStandardSpec extends FlatSpec {
         get[ParticleFlux](ParticleFluxPType)
       def dose: Option[Dose] = get[Dose](DosePType)
       def areaTime: Option[AreaTime] = get[AreaTime](AreaTimePType)
+      def absorbedDose: Option[AbsorbedDose] = 
+        get[AbsorbedDose](AbsorbedDosePType)
 
       def angle: Option[Angle] = get[Angle](AnglePType)
       def length: Option[Length] = get[Length](LengthPType)
       def area: Option[Area] = get[Area](AreaPType)
       def volume: Option[Volume] = get[Volume](VolumePType)
       def solidAngle: Option[SolidAngle] = get[SolidAngle](SolidAnglePType)
+      def specificVolume: Option[SpecificVolume] = 
+        get[SpecificVolume](SpecificVolumePType)
+      def molarVolume: Option[MolarVolume] = get[MolarVolume](MolarVolumePType)
 
       def temperature: Option[Temperature] = get[Temperature](TemperaturePType)
       def thermalCapacity: Option[ThermalCapacity] = 
@@ -256,9 +273,10 @@ class TerraStandardSpec extends FlatSpec {
       Joules(11) as EnergyPType,
       EWattsPerCubicMeter(10) as PowerDensityPType,
       JoulesPerCubicMeter(9) as EnergyDensityPType,
+      JoulesPerSquareMeter(9) as EnergyAreaDensityPType,
       Watts(8) as PowerPType,
       WattsPerHour(7) as PowerRampPType,
-      Grays(6) as SpecificEnergyPType,
+      JoulesPerKilogram(6) as SpecificEnergyPType,
       JoulesPerMole(5) as MolarEnergyPType,
 
       BytesPerSecond(7000000) as DataRatePType,
@@ -288,6 +306,8 @@ class TerraStandardSpec extends FlatSpec {
       KilometersPerHour(27) as VelocityPType,
       CubicMetersPerSecond(26) as VolumeFlowPType,
       NewtonsPerSecond(25) as YankPType,
+      NewtonsPerMeter(25) as SurfaceTensionPType,
+      PascalSeconds(25) as ViscosityPType,
 
       Lux(24) as IlluminancePType,
       CandelasPerSquareMeter(23) as LuminancePType,
@@ -305,12 +325,15 @@ class TerraStandardSpec extends FlatSpec {
       BecquerelsPerSquareMeterSecond(22) as ParticleFluxPType,
       Sieverts(23) as DosePType,
       SquareMeterSeconds(24) as AreaTimePType,
+      Grays(25) as AbsorbedDosePType,
 
       Degrees(14) as AnglePType,
       Meters(13) as LengthPType,
       SquareMeters(12) as AreaPType,
       CubicMeters(11) as VolumePType,
       SquareRadians(10) as SolidAnglePType,
+      CubicMetersPerKilogram(11) as SpecificVolumePType,
+      CubicMetersPerMole(11) as MolarVolumePType,
 
       Kelvin(273.15) as TemperaturePType,
       JoulesPerKelvin(8) as ThermalCapacityPType,
@@ -340,9 +363,10 @@ class TerraStandardSpec extends FlatSpec {
     assert(
       container2.powerDensity.get == EWattsPerCubicMeter(10))
     assert(container2.energyDensity.get == JoulesPerCubicMeter(9))
+    assert(container2.energyAreaDensity.get == JoulesPerSquareMeter(9))
     assert(container2.power.get == Watts(8))
     assert(container2.powerRamp.get == WattsPerHour(7))
-    assert(container2.specificEnergy.get == Grays(6))
+    assert(container2.specificEnergy.get == JoulesPerKilogram(6))
     assert(container2.molarEnergy.get == JoulesPerMole(5))
 
     assert(container2.dataRate.get == BytesPerSecond(7000000))
@@ -372,6 +396,8 @@ class TerraStandardSpec extends FlatSpec {
     assert(container2.velocity.get == KilometersPerHour(27))
     assert(container2.volumeFlow.get == CubicMetersPerSecond(26))
     assert(container2.yank.get == NewtonsPerSecond(25))
+    assert(container2.surfaceTension.get == NewtonsPerMeter(25))
+    assert(container2.viscosity.get == PascalSeconds(25))
 
     assert(container2.illuminance.get == Lux(24))
     assert(container2.luminance.get == CandelasPerSquareMeter(23))
@@ -391,12 +417,15 @@ class TerraStandardSpec extends FlatSpec {
     assert(container2.particleFlux.get == BecquerelsPerSquareMeterSecond(22))
     assert(container2.dose.get == Sieverts(23))
     assert(container2.areaTime.get == SquareMeterSeconds(24))
+    assert(container2.absorbedDose.get == Grays(25))
 
     assert(container2.angle.get == Degrees(14))
     assert(container2.length.get == Meters(13))
     assert(container2.area.get == SquareMeters(12))
     assert(container2.volume.get == CubicMeters(11))
     assert(container2.solidAngle.get == SquareRadians(10))
+    assert(container2.specificVolume.get == CubicMetersPerKilogram(11))
+    assert(container2.molarVolume.get == CubicMetersPerMole(11))
 
     assert(container2.temperature.get == Celsius(0.0))
     assert(container2.thermalCapacity.get == JoulesPerKelvin(8))

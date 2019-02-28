@@ -1,12 +1,12 @@
 
 package org.eprop
 
-import java.awt.Color
+import java.awt.{ Color, Dimension, Font, Shape, Stroke, BasicStroke, Rectangle }
 import java.util.Date
-import org.scalatest.FlatSpec
+import org.scalatest.{ FlatSpec, Matchers }
 import org.eprop.EKey._
 
-class EpropTest extends FlatSpec {
+class EpropTest extends FlatSpec with Matchers {
 
   /*
   object WeekDay extends Enumeration {
@@ -26,6 +26,10 @@ class EpropTest extends FlatSpec {
   object WidthPType extends EKeyType[Double]('width)
   object StringPType extends EKeyType[String]('str)
   object ColorPType extends EKeyType[Color]('color)
+  object DimensionPType extends EKeyType[Dimension]('dimension)
+  object FontPType extends EKeyType[Font]('font)
+  object ShapePType extends EKeyType[Shape]('shape)
+  object StrokePType extends EKeyType[Stroke]('stroke)
   object TimePType extends EKeyType[Date]('time)
   //object StartDatePType extends EKeyType[Enumeration]('startDate)
 
@@ -47,6 +51,10 @@ class EpropTest extends FlatSpec {
       def width: Option[Double] = get[Double](WidthPType)
       def str: Option[String] = get[String](StringPType)
       def color: Option[Color] = get[Color](ColorPType)
+      def dimension: Option[Dimension] = get[Dimension](DimensionPType)
+      def font: Option[Font] = get[Font](FontPType)
+      def shape: Option[Shape] = get[Shape](ShapePType)
+      def stroke: Option[Stroke] = get[Stroke](StrokePType)
       def time: Option[Date] = get[Date](TimePType)
       //def startDate: Enumeration =
         //properties.get(StartDatePType.id).getOrElse(
@@ -60,19 +68,30 @@ class EpropTest extends FlatSpec {
     assert(container.width == Some(23.3))
     assert(container.getInt == None)
 
+    val rec: Shape = new Rectangle(0, 0, 20, 10)
+    val str: Stroke = new BasicStroke(10)
+
     val container2 = new Container(
-      Color.black as ColorPType, true as ValidPType, 0x88 as 'byte, 
+      Color.black as ColorPType, 
+      new Dimension(10, 20) as DimensionPType,
+      new Font("SansSerif", 0, 12) as FontPType, 
+      rec as ShapePType, str as StrokePType,
+      true as ValidPType, 0x88 as 'byte,
       'c' as CharPType, 16323 as 'short, 15 as IntPType, 100l as LongPType,
       new Date(10) as TimePType) //, Mon as StartDatePType)
-    assert(container2.str == Some("blue")) // check that defaults work
-    assert(container2.color == Some(Color.black))
-    assert(container2.valid == Some(true))
-    assert(container2.getByte == Some(0x88))
-    assert(container2.getChar == Some('c'))
-    assert(container2.getShort == Some(16323))
-    assert(container2.getInt == Some(15))
-    assert(container2.getLong == Some(100))
-    assert(container2.time == Some(new Date(10)))
-    //assert(container2.startDate == Some(Mon))
+    container2.str should be(Some("blue")) // check that defaults work
+    container2.color should be(Some(Color.black))
+    container2.dimension should be(Some(new Dimension(10, 20)))
+    container2.font should be(Some(new Font("SansSerif", 0, 12)))
+    container2.shape should be(Some(new Rectangle(0, 0, 20, 10)))
+    container2.stroke should be(Some(new BasicStroke(10)))
+    container2.valid should be(Some(true))
+    container2.getByte should be(Some(0x88))
+    container2.getChar should be(Some('c'))
+    container2.getShort should be(Some(16323))
+    container2.getInt should be(Some(15))
+    container2.getLong should be(Some(100))
+    container2.time should be(Some(new Date(10)))
+    //container2.startDate should be(Some(Mon))
   }
 }
