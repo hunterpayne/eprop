@@ -18,10 +18,6 @@
   
   <description>Produce cross-scala version build for Scala 2.13.</description>
 
-  <properties>
-    <suite.name>org.eprop.AwtSuiteTest</suite.name>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.eprop</groupId>

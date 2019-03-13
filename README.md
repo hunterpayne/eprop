@@ -28,11 +28,13 @@ class Container(/* static properties go here */props: EProperty[_]*) extends Ext
   def color: Option[String] = get[String](ColorPType)
   def length: Option[Double] = get[Double](LengthPType)
   def width: Option[Double] = get[Double](WidthPType)
-
-  // other methods here      
+  def width2: Option[String] = get[String](WidthPType) // won't compile as WidthPType's type is Double, not String
 }
 
 // now make an instance of your container with some values
-new Container("read" as ColorPType, 20.0 as LengthPType, 23.3 as WidthPType)
+val c = new Container("read" as ColorPType, 20.0 as LengthPType, 23.3 as WidthPType)
+// ask for a random value
+c.get[Float]('other) // won't compile unless c has a Float named 'other
+c.color // pre-typed so will always compile and return Option[String]
 
 ```

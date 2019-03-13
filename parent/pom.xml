@@ -164,7 +164,7 @@
               <version>${version.scala.zinc}</version>
             </dependency>
           </defineBridge>
-	  
+
           <zincOptionsScala>
             -Xsource:${version.scala.epoch}
             -withVersionClasspathValidator:false
