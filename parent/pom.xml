@@ -4,7 +4,7 @@
   <groupId>org.eprop</groupId>
   <artifactId>parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>parent</name>
   <url></url>
 
@@ -29,7 +29,7 @@
     
     <!-- Scala.js tool stack. -->
     <version.scalajs.epoch>0.6</version.scalajs.epoch>
-    <version.scalajs.release>0.6.25</version.scalajs.release>
+    <version.scalajs.release>0.6.26</version.scalajs.release>
     <version.scalajs.library>sjs${version.scalajs.epoch}_${version.scala.epoch}</version.scalajs.library>
 
     <!-- Scala.native tool stack. -->
@@ -44,8 +44,11 @@
     <maven.compiler.target>${version.java}</maven.compiler.target><!-- Used by M2E. -->
 
     <!-- scalatest -->
-    <version.scalatest>3.0.6-SNAP5</version.scalatest>
-    <version.scalajstest>3.0.6-SNAP2</version.scalajstest>
+    <version.scalatest>3.0.6</version.scalatest>
+
+    <!-- JUnit 4 Testing for JS -->
+    <version.junit4>4.12</version.junit4>
+    <version.maven.testing>2.22.1</version.maven.testing>
 
     <version.terra>1.0.0</version.terra>
     
@@ -53,6 +56,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
   </properties>
+
+  <modules>
+    <module>cross/2.11</module>
+    <module>cross/2.12</module>
+    <module>cross/2.13</module>    
+  </modules>
 
   <dependencies>
     <dependency>
@@ -86,14 +95,6 @@
       <version>${version.scalatest}</version>
       <scope>test</scope>
     </dependency>
-    <!--
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatestjs_${version.scalajs.library}</artifactId>
-      <version>${version.scalajstest}</version>
-      <scope>test</scope>
-    </dependency>
-    -->
     <dependency>
       <groupId>org.scalacheck</groupId>
       <artifactId>scalacheck_${version.scala.epoch}</artifactId>
@@ -204,8 +205,6 @@
 	
         <executions>
           <execution>
-	    <id>scala-build</id>
-	    <inherited>false</inherited>
             <goals>
 	      
               <!-- Enable eclipse for manual project testing. -->
@@ -254,7 +253,7 @@
         <artifactId>scalatest-maven-plugin</artifactId>
         <version>1.0</version>
         <configuration>
-          <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+          <reportsDirectory>${project.build.directory}/jvm-surefire-reports</reportsDirectory>
           <junitxml>.</junitxml>
           <filereports>EProp-TestSuite.txt</filereports>
 	  <parallel>false</parallel>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eprop</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../..</relativePath>
+  </parent>
+  
+  <groupId>org.eprop</groupId>
+  <artifactId>parent_2.13</artifactId>
+  <version>${revision}</version>
+  <packaging>pom</packaging>
+
+  <description>Produce cross-scala version build for Scala 2.13.</description>
+  
+  <properties>
+    <version.scala.simple.epoch>2.13</version.scala.simple.epoch>
+    <version.scala.epoch>2.13.0-M5</version.scala.epoch>
+    <version.scala.release>2.13.0-M5</version.scala.release>
+    <version.scalajs.library>sjs${version.scalajs.epoch}_2.13.0-M4</version.scalajs.library>
+  </properties>
+
+    <!--
+  <dependencies>
+    <dependency>
+      <groupId>org.scala-native</groupId>
+      <artifactId>scalalib_${version.scalanat.library}</artifactId>
+      <version>${version.scalanat.release}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.scala-js</groupId>
+      <artifactId>scalajs-library_${version.scala.epoch}</artifactId>
+      <version>${version.scalajs.release}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+    -->
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.carrotgarden.maven</groupId>
+        <artifactId>scalor-maven-plugin_2.12</artifactId>
+	<version>1.4.2.20180508161326</version>
+
+        <configuration>
+	  <compileRegexScalaExclude>.*(Main|CoreSuite|StandardSuite|JodaSuite|SquantsSuite|CommonSuite|ClassicSuite|DoubleSuite|SigFigsSuite).*</compileRegexScalaExclude>
+	</configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${version.maven.testing}</version>
+	<configuration>
+          <skipTests>true</skipTests>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
