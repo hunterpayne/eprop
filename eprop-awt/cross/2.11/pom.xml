@@ -12,14 +12,14 @@
   </parent>
   
   <groupId>org.eprop</groupId>
-  <artifactId>eprop-terra-double_2.11</artifactId>
-  <version>${revision}</version>
+  <artifactId>eprop-awt_2.11</artifactId>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
   
   <description>Produce cross-scala version build for Scala 2.11.</description>
 
   <properties>
-    <suite.name>org.eprop.DoubleSuiteTest</suite.name>
+    <suite.name>org.eprop.AwtSuiteTest</suite.name>
   </properties>
 
   <dependencies>
@@ -28,24 +28,6 @@
       <artifactId>core_${version.scala.simple.epoch}</artifactId>
       <version>${revision}</version>
     </dependency>
-    <dependency>
-      <groupId>org.terra</groupId>
-      <artifactId>terra_${version.scala.simple.epoch}</artifactId>
-      <version>${version.terra}</version>
-    </dependency>
-    <!-- place these same dependencies in the provided classpath so they are
-         available for linking in scala-native -->
-    <dependency>
-      <groupId>org.eprop</groupId>
-      <artifactId>core_${version.scala.simple.epoch}</artifactId>
-      <version>${revision}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.terra</groupId>
-      <artifactId>terra_${version.scala.simple.epoch}</artifactId>
-      <version>${version.terra}</version>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
+
 </project>

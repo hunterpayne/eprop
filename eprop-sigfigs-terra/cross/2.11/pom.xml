@@ -38,6 +38,26 @@
       <artifactId>terra_${version.scala.simple.epoch}</artifactId>
       <version>${version.terra}</version>
     </dependency>
+    <!-- place these same dependencies in the provided classpath so they are
+       available for linking in scala-native -->
+    <dependency>
+      <groupId>org.eprop</groupId>
+      <artifactId>core_${version.scala.simple.epoch}</artifactId>
+      <version>${revision}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sigfigs</groupId>
+      <artifactId>sigfigs_${version.scala.simple.epoch}</artifactId>
+      <version>1.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.terra</groupId>
+      <artifactId>terra_${version.scala.simple.epoch}</artifactId>
+      <version>${version.terra}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   
 </project>

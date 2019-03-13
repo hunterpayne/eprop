@@ -88,6 +88,12 @@
       <version>${version.scalanat.release}</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.chuusai</groupId>
+      <artifactId>shapeless_${version.scalanat.library}</artifactId>
+      <version>2.3.3</version>
+      <scope>provided</scope>
+    </dependency>
 
     <!-- Scala-JS dependencies -->
     <dependency>
@@ -232,6 +238,9 @@
 
           <nativeLogBuildStats>true</nativeLogBuildStats>
           <nativeLogBuildTimes>true</nativeLogBuildTimes>
+<!--	  <nativeLogClassPath>true</nativeLogClassPath>
+	  <nativeLogOptions>true</nativeLogOptions>
+	  <nativeLogRuntime>true</nativeLogRuntime> -->
 	  
 	  <zincOptionsScala>
             -Xsource:${version.scala.epoch}
@@ -290,8 +299,8 @@
               <goal>compile-main</goal>
               <goal>compile-test</goal>
 	      <!-- this works now, so uncomment if you have clang setup -->
-              <goal>scala-native-link-test</goal>	      
-              <goal>scala-native-pack-test</goal>
+              <!-- <goal>scala-native-link-test</goal>	      
+              <goal>scala-native-pack-test</goal> -->
 
 	      <!-- scala-js -->
 	      <goal>scala-js-link-main</goal>

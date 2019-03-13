@@ -1,0 +1,10 @@
+#!/bin/sh
+core/cross/2.11/target/scalor/native/output/test/debug
+#eprop-joda/cross/2.11/target/scalor/native/output/test/debug
+#eprop-squants/cross/2.11/target/scalor/native/output/test/debug
+#eprop-awt/cross/2.11/target/scalor/native/output/test/debug
+eprop-terra-standard/cross/2.11/target/scalor/native/output/test/debug
+eprop-terra-common/cross/2.11/target/scalor/native/output/test/debug
+eprop-terra-classic/cross/2.11/target/scalor/native/output/test/debug
+eprop-terra-double/cross/2.11/target/scalor/native/output/test/debug
+#eprop-sigfigs-terra/cross/2.11/target/scalor/native/output/test/debug

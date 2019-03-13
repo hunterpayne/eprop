@@ -13,6 +13,7 @@
     <module>core</module>
     <module>eprop-squants</module>
     <module>eprop-joda</module>
+    <module>eprop-awt</module>
     <module>eprop-terra-standard</module>
     <module>eprop-terra-common</module>
     <module>eprop-terra-classic</module>

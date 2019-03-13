@@ -50,7 +50,7 @@
 	<version>1.4.2.20180508161326</version>
 
         <configuration>
-	  <compileRegexScalaExclude>.*(Main|CoreSuite|StandardSuite|JodaSuite|SquantsSuite|CommonSuite|ClassicSuite|DoubleSuite|SigFigsSuite).*</compileRegexScalaExclude>
+	  <compileRegexScalaExclude>.*(Main|CoreSuite|StandardSuite|AwtSuite|JodaSuite|SquantsSuite|CommonSuite|ClassicSuite|DoubleSuite|SigFigsSuite).*</compileRegexScalaExclude>
 	</configuration>
       </plugin>
       <plugin>

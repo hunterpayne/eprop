@@ -1,7 +1,7 @@
 
 package org.eprop
 
-import org.scalatest.FlatSpec
+import org.scalatest.{ FlatSpec, Matchers }
 import org.eprop.EKey._
 import org.eprop.EKeyTerraDouble._
 
@@ -18,7 +18,7 @@ import space._
 import thermal._
 import time._
 
-class TerraDoubleSpec extends FlatSpec {
+trait DoubleFixture {
 
   object DimensionlessPType extends EKeyType[Dimensionless]('dimensionless)
 
@@ -121,41 +121,39 @@ class TerraDoubleSpec extends FlatSpec {
   object FrequencyPType extends EKeyType[Frequency]('frequency)
   object TimeSquaredPType extends EKeyType[TimeSquared]('timeSquared)
 
-  "The properties" should "read squants types correctly" in {
+  // declare your extensible model type
+  class Container(props: EProperty[_]*) extends Extensible {
 
-    // declare your extensible model type
-    class Container(props: EProperty[_]*) extends Extensible {
+    merge(Seq(Kilograms(10) as MassPType)) // a default
+    merge(props)
 
-      merge(Seq(Kilograms(10) as MassPType)) // a default
-      merge(props)
+    def dimensionless: Option[Dimensionless] = 
+      get[Dimensionless](DimensionlessPType)
 
-      def dimensionless: Option[Dimensionless] = 
-        get[Dimensionless](DimensionlessPType)
+    def electricCurrent: Option[ElectricCurrent] = 
+      get[ElectricCurrent](ElectricCurrentPType)
+    def capacitance: Option[Capacitance] = get[Capacitance](CapacitancePType)
+    def conductivity: Option[Conductivity] = 
+      get[Conductivity](ConductivityPType)
+    def electricCharge: Option[ElectricCharge] = 
+      get[ElectricCharge](ElectricChargePType)
+    def electricPotential: Option[ElectricPotential] = 
+      get[ElectricPotential](ElectricPotentialPType)
+    def electricalConductance: Option[ElectricalConductance] = 
+      get[ElectricalConductance](ElectricalConductancePType)
+    def electricalResistance: Option[ElectricalResistance] = 
+      get[ElectricalResistance](ElectricalResistancePType)
+    def inductance: Option[Inductance] = get[Inductance](InductancePType)
+    def magneticFlux: Option[MagneticFlux] = 
+      get[MagneticFlux](MagneticFluxPType)
+    def magneticFluxDensity: Option[MagneticFluxDensity] = 
+      get[MagneticFluxDensity](MagneticFluxDensityPType)
+    def resistivity: Option[Resistivity] = get[Resistivity](ResistivityPType)
 
-      def electricCurrent: Option[ElectricCurrent] = 
-        get[ElectricCurrent](ElectricCurrentPType)
-      def capacitance: Option[Capacitance] = get[Capacitance](CapacitancePType)
-      def conductivity: Option[Conductivity] = 
-        get[Conductivity](ConductivityPType)
-      def electricCharge: Option[ElectricCharge] = 
-        get[ElectricCharge](ElectricChargePType)
-      def electricPotential: Option[ElectricPotential] = 
-        get[ElectricPotential](ElectricPotentialPType)
-      def electricalConductance: Option[ElectricalConductance] = 
-        get[ElectricalConductance](ElectricalConductancePType)
-      def electricalResistance: Option[ElectricalResistance] = 
-        get[ElectricalResistance](ElectricalResistancePType)
-      def inductance: Option[Inductance] = get[Inductance](InductancePType)
-      def magneticFlux: Option[MagneticFlux] = 
-        get[MagneticFlux](MagneticFluxPType)
-      def magneticFluxDensity: Option[MagneticFluxDensity] = 
-        get[MagneticFluxDensity](MagneticFluxDensityPType)
-      def resistivity: Option[Resistivity] = get[Resistivity](ResistivityPType)
-
-      def energy: Option[Energy] = get[Energy](EnergyPType)
-      def powerDensity: Option[PowerDensity] = 
-        get[PowerDensity](PowerDensityPType)
-      def energyDensity: Option[EnergyDensity] = 
+    def energy: Option[Energy] = get[Energy](EnergyPType)
+    def powerDensity: Option[PowerDensity] = 
+      get[PowerDensity](PowerDensityPType)
+    def energyDensity: Option[EnergyDensity] = 
         get[EnergyDensity](EnergyDensityPType)
       def energyAreaDensity: Option[EnergyAreaDensity] = 
         get[EnergyAreaDensity](EnergyAreaDensityPType)
@@ -253,9 +251,6 @@ class TerraDoubleSpec extends FlatSpec {
     val container = new Container(
       Grams(10) as MassPType, Meters(10.0) as LengthPType, 
       SquareMeters(15.2) as AreaPType)
-    assert(container.mass == Some(Kilograms(0.01)))
-    assert(container.length == Some(Meters(10.0)))
-    assert(container.area == Some(SquareMeters(15.2)))
 
     val container2 = new Container(
       Percent(50.0) as DimensionlessPType,
@@ -345,97 +340,105 @@ class TerraDoubleSpec extends FlatSpec {
       Hertz(6) as FrequencyPType,
       SecondsSquared(5) as TimeSquaredPType
     )
+}
 
-    assert(
-      container2.dimensionless.get * container2.dimensionless.get == 
-        Percent(25))
+class TerraDoubleSpec extends FlatSpec with Matchers with DoubleFixture {
 
-    assert(container2.electricCurrent.get == Milliamperes(100))
-    assert(container2.capacitance.get == Farads(7))
-    assert(container2.conductivity.get == SiemensPerMeter(6))
-    assert(container2.electricCharge.get == Coulombs(5))
-    assert(container2.electricPotential.get == Volts(4))
-    assert(container2.electricalConductance.get == Siemens(3))
-    assert(container2.electricalResistance.get == Kilohms(2))
-    assert(container2.inductance.get == Henry(15))
-    assert(container2.magneticFlux.get == Webers(14))
-    assert(container2.magneticFluxDensity.get == Teslas(13))
-    assert(container2.resistivity.get == OhmMeters(12))
+  "The properties" should "read squants types correctly" in {
 
-    assert(container2.energy.get == Joules(11))
-    assert(
-      container2.powerDensity.get == EWattsPerCubicMeter(10))
-    assert(container2.energyDensity.get == JoulesPerCubicMeter(9))
-    assert(container2.energyAreaDensity.get == JoulesPerSquareMeter(9))
-    assert(container2.power.get == Watts(8))
-    assert(container2.powerRamp.get == WattsPerHour(7))
-    assert(container2.specificEnergy.get == JoulesPerKilogram(6))
-    assert(container2.molarEnergy.get == JoulesPerMole(5))
+    container.mass should be(Some(Kilograms(0.01)))
+    container.length should be(Some(Meters(10.0)))
+    container.area should be(Some(SquareMeters(15.2)))
+    
+    container2.dimensionless.get * container2.dimensionless.get should be(
+      Percent(25))
 
-    assert(container2.dataRate.get == BytesPerSecond(7000000))
-    assert(container2.information.get == Bytes(100000))
+    container2.electricCurrent.get should be(Milliamperes(100))
+    container2.capacitance.get should be(Farads(7))
+    container2.conductivity.get should be(SiemensPerMeter(6))
+    container2.electricCharge.get should be(Coulombs(5))
+    container2.electricPotential.get should be(Volts(4))
+    container2.electricalConductance.get should be(Siemens(3))
+    container2.electricalResistance.get should be(Kilohms(2))
+    container2.inductance.get should be(Henry(15))
+    container2.magneticFlux.get should be(Webers(14))
+    container2.magneticFluxDensity.get should be(Teslas(13))
+    container2.resistivity.get should be(OhmMeters(12))
 
-    assert(container2.money.get == USD(1000000))
-    assert(container2.employee.get == People(10))
-    assert(container2.labor.get == PersonHours(200000))
+    container2.energy.get should be(Joules(11))
+    
+    container2.powerDensity.get should be(EWattsPerCubicMeter(10))
+    container2.energyDensity.get should be(JoulesPerCubicMeter(9))
+    container2.energyAreaDensity.get should be(JoulesPerSquareMeter(9))
+    container2.power.get should be(Watts(8))
+    container2.powerRamp.get should be(WattsPerHour(7))
+    container2.specificEnergy.get should be(JoulesPerKilogram(6))
+    container2.molarEnergy.get should be(JoulesPerMole(5))
 
-    assert(container2.areaDensity.get == GramsPerSquareCentimeter(5))
-    assert(container2.density.get == KilogramsPerCubicMeter(4))
-    assert(container2.mass.get == Grams(3000))
-    assert(container2.chemicalAmount.get == Moles(2))
-    assert(container2.molarMass.get == KilogramsPerMole(71))
-    assert(container2.molarity.get == MolesPerKilogram(71))
-    assert(container2.concentration.get == MolesPerCubicMeter(72))
-    assert(container2.catalyticActivity.get == Katals(73))
+    container2.dataRate.get should be(BytesPerSecond(7000000))
+    container2.information.get should be(Bytes(100000))
 
-    assert(container2.acceleration.get == MetersPerSecondSquared(35))
-    assert(container2.angularAcceleration.get == DegreesPerSecondSquared(34))
-    assert(container2.angularVelocity.get == RadiansPerSecond(34))
-    assert(container2.force.get == Newtons(33))
-    assert(container2.jerk.get == MetersPerSecondCubed(32))
-    assert(container2.massFlow.get == KilogramsPerSecond(31))
-    assert(container2.momentum.get == NewtonSeconds(30))
-    assert(container2.pressureChange.get == PascalsPerSecond(29))
-    assert(container2.pressure.get == Bars(28))
-    assert(container2.velocity.get == KilometersPerHour(27))
-    assert(container2.volumeFlow.get == CubicMetersPerSecond(26))
-    assert(container2.yank.get == NewtonsPerSecond(25))
-    assert(container2.surfaceTension.get == NewtonsPerMeter(25))
-    assert(container2.viscosity.get == PascalSeconds(25))
+    container2.money.get should be(USD(1000000))
+    container2.employee.get should be(People(10))
+    container2.labor.get should be(PersonHours(200000))
 
-    assert(container2.illuminance.get == Lux(24))
-    assert(container2.luminance.get == CandelasPerSquareMeter(23))
-    assert(container2.luminousEnergy.get == LumenSeconds(22))
-    assert(container2.luminousExposure.get == LuxSeconds(21))
-    assert(container2.luminousFlux.get == Lumens(20))
-    assert(container2.luminousIntensity.get == Candelas(19))
+    container2.areaDensity.get should be(GramsPerSquareCentimeter(5))
+    container2.density.get should be(KilogramsPerCubicMeter(4))
+    container2.mass.get should be(Grams(3000))
+    container2.chemicalAmount.get should be(Moles(2))
+    container2.molarMass.get should be(KilogramsPerMole(71))
+    container2.molarity.get should be(MolesPerKilogram(71))
+    container2.concentration.get should be(MolesPerCubicMeter(72))
+    container2.catalyticActivity.get should be(Katals(73))
 
-    assert(container2.irradiance.get == ErgsPerSecondPerSquareCentimeter(18))
-    assert(container2.radiance.get == WattsPerSteradianPerSquareMeter(17))
-    assert(container2.spectralIntensity.get == WattsPerSteradianPerMeter(16))
-    assert(
-      container2.spectralIrradiance.get == 
-        ErgsPerSecondPerSquareCentimeterPerAngstrom(9))
-    assert(container2.spectralPower.get == WattsPerMeter(15))
-    assert(container2.activity.get == Becquerels(21))
-    assert(container2.particleFlux.get == BecquerelsPerSquareMeterSecond(22))
-    assert(container2.dose.get == Sieverts(23))
-    assert(container2.areaTime.get == SquareMeterSeconds(24))
-    assert(container2.absorbedDose.get == Grays(25))
+    container2.acceleration.get should be(MetersPerSecondSquared(35))
+    container2.angularAcceleration.get should be(DegreesPerSecondSquared(34))
+    container2.angularVelocity.get should be(RadiansPerSecond(34))
+    container2.force.get should be(Newtons(33))
+    container2.jerk.get should be(MetersPerSecondCubed(32))
+    container2.massFlow.get should be(KilogramsPerSecond(31))
+    container2.momentum.get should be(NewtonSeconds(30))
+    container2.pressureChange.get should be(PascalsPerSecond(29))
+    container2.pressure.get should be(Bars(28))
+    container2.velocity.get should be(KilometersPerHour(27))
+    container2.volumeFlow.get should be(CubicMetersPerSecond(26))
+    container2.yank.get should be(NewtonsPerSecond(25))
+    container2.surfaceTension.get should be(NewtonsPerMeter(25))
+    container2.viscosity.get should be(PascalSeconds(25))
 
-    assert(container2.angle.get == Degrees(14))
-    assert(container2.length.get == Meters(13))
-    assert(container2.area.get == SquareMeters(12))
-    assert(container2.volume.get == CubicMeters(11))
-    assert(container2.solidAngle.get == SquareRadians(10))
-    assert(container2.specificVolume.get == CubicMetersPerKilogram(11))
-    assert(container2.molarVolume.get == CubicMetersPerMole(11))
+    container2.illuminance.get should be(Lux(24))
+    container2.luminance.get should be(CandelasPerSquareMeter(23))
+    container2.luminousEnergy.get should be(LumenSeconds(22))
+    container2.luminousExposure.get should be(LuxSeconds(21))
+    container2.luminousFlux.get should be(Lumens(20))
+    container2.luminousIntensity.get should be(Candelas(19))
 
-    assert(container2.temperature.get == Celsius(0.0))
-    assert(container2.thermalCapacity.get == JoulesPerKelvin(8))
+    container2.irradiance.get should be(ErgsPerSecondPerSquareCentimeter(18))
+    container2.radiance.get should be(WattsPerSteradianPerSquareMeter(17))
+    container2.spectralIntensity.get should be(WattsPerSteradianPerMeter(16))
+    
+    container2.spectralIrradiance.get should be(
+      ErgsPerSecondPerSquareCentimeterPerAngstrom(9))
+    container2.spectralPower.get should be(WattsPerMeter(15))
+    container2.activity.get should be(Becquerels(21))
+    container2.particleFlux.get should be(BecquerelsPerSquareMeterSecond(22))
+    container2.dose.get should be(Sieverts(23))
+    container2.areaTime.get should be(SquareMeterSeconds(24))
+    container2.absorbedDose.get should be(Grays(25))
 
-    assert(container2.time.get == Seconds(7))
-    assert(container2.frequency.get == Hertz(6))
-    assert(container2.timeSquared.get == SecondsSquared(5))
+    container2.angle.get should be(Degrees(14))
+    container2.length.get should be(Meters(13))
+    container2.area.get should be(SquareMeters(12))
+    container2.volume.get should be(CubicMeters(11))
+    container2.solidAngle.get should be(SquareRadians(10))
+    container2.specificVolume.get should be(CubicMetersPerKilogram(11))
+    container2.molarVolume.get should be(CubicMetersPerMole(11))
+
+    container2.temperature.get should be(Celsius(0.0))
+    container2.thermalCapacity.get should be(JoulesPerKelvin(8))
+
+    container2.time.get should be(Seconds(7))
+    container2.frequency.get should be(Hertz(6))
+    container2.timeSquared.get should be(SecondsSquared(5))
   }
 }

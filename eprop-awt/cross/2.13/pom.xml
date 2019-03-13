@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eprop</groupId>
+    <artifactId>parent_2.13</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../../../parent/cross/2.13</relativePath>
+  </parent>
+  
+  <groupId>org.eprop</groupId>
+  <artifactId>eprop-awt_2.13</artifactId>
+  <version>${revision}</version>
+  <packaging>jar</packaging>
+  
+  <description>Produce cross-scala version build for Scala 2.13.</description>
+
+  <properties>
+    <suite.name>org.eprop.AwtSuiteTest</suite.name>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.eprop</groupId>
+      <artifactId>core_${version.scala.simple.epoch}</artifactId>
+      <version>${revision}</version>
+    </dependency>
+  </dependencies>
+  
+</project>
