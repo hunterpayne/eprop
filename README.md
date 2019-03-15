@@ -38,3 +38,9 @@ c.get[Float]('other) // won't compile unless c has a Float named 'other
 c.color // pre-typed so will always compile and return Option[String]
 
 ```
+
+## To build
+```script
+source setup.sh
+mvn clean install
+```
